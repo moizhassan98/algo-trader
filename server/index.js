@@ -3,10 +3,14 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 // const db = require('./db')
+const firebase = require('./firebase')
+const db = require('./db')
 const router = require('./routes/router')
+
 
 const app = express()
 const apiPort = 5000
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
