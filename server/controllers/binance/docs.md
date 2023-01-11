@@ -6,8 +6,10 @@
     - https://github.com/binance/binance-connector-node
     - https://binance.github.io/binance-connector-node/
 
-
-
+# testnets
+    - https://testnet.binancefuture.com/
+    - https://testnet.binance.vision/ (spot)
+    - https://dev.binance.vision/t/binance-testnet-environments/99/2
 # Binance HTTP Codes
 - HTTP 4XX return codes are used for malformed requests; the issue is on the sender's side.
 - HTTP 403 return code is used when the WAF Limit (Web Application Firewall) has been violated.
