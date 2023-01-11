@@ -2,6 +2,6 @@ const { Spot } = require('@binance/connector')
 import getBinanceConnector from '../binance-connector'
 
 
-const createOrder = async() =>{
+const createOrder = async(userId) =>{
 
 }
