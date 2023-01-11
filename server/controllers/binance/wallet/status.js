@@ -1,0 +1,5 @@
+
+
+const checkBinanceAPIStatus = async() =>{
+    client
+}
