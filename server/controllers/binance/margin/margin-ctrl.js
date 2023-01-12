@@ -17,7 +17,12 @@ const createMarginOrder = async(req,res) =>{
         var userId = body.userId;
         console.log("USER",userId)
         // var binanace = getBinanceConnector(userId);
-        var binance = new Spot('L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF','SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g')
+        var binance = new Spot(
+            'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF',
+            'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g',
+            {
+                baseURL: 'https://testnet.binance.vision'
+            })
 
         binance.newMarginOrder(
             body.symbol,
