@@ -23,15 +23,14 @@ const binance = async(url, method , apiKey, apiSecret, options) =>{
         headers: headers
     }
 
-    axios(axiosOptions)
-    .then((response)=>{
-        console.log("API res:",response)
-        return response
-    })
-    .catch((error)=>{
-        console.log("API Error: ",error)
-        return error
-    })
+    var ApiResponse = {}; 
+    try {
+        ApiResponse = await axios(axiosOptions);
+    } catch (error) {
+        ApiResponse = error
+    }
+
+    return ApiResponse;
     
 }
 
