@@ -28,7 +28,7 @@ const createSpotOrder  = async(req,res) =>{
 
 
         var result = await binance(
-            'https://testnet.binance.vision/api/v3/orderr',
+            'https://testnet.binance.vision/api/v3/order',
             'POST',
             apiKey,
             apiSecret,
@@ -39,6 +39,7 @@ const createSpotOrder  = async(req,res) =>{
                 quantity
             }
         )
+        console.log(result)
         if(result.status === 200 ){
             return res.status(200).json({
                 result: result.data
@@ -52,33 +53,70 @@ const createSpotOrder  = async(req,res) =>{
     }
 }
 
-const getSpotOrderStatus = async(req,res) =>{
+const getSpotOrderStatus = async(req,res) =>{// Getting Forbidden
     const body = req.body
     var userId = body.userId;
     const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
     const secretKey = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
     const apiSecret = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
     const symbol = 'BTCUSDT';
+    const orderId = 6569201; //Neccesary
 
     var result = await binance(
         'https://testnet.binance.vision/api/v3/order',
-        'POST',
+        'GET',
         apiKey,
         apiSecret,
         {
             symbol,
-            side,
-            type,
-            quantity
+            orderId,
         }
     );
     
-    return res.status(200).json({
-        result: result
-    })
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText
+        })
+    }
 
+}
+
+const getAllOpenSpotOrders = async(req,res) =>{
+    // const body = req.body
+    // var userId = body.userId;
+    const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
+    const secretKey = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const apiSecret = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const symbol = 'BTCUSDT';
+    const orderId = 6569201; //Neccesary
+
+    var result = await binance(
+        'https://testnet.binance.vision/api/v3/allOrders',
+        'GET',
+        apiKey,
+        apiSecret,
+        {
+            symbol
+        }
+    );
+    console.log(result);
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText
+        })
+    }
 }
 
 module.exports = {
     createSpotOrder,
+    getSpotOrderStatus,
+    getAllOpenSpotOrders,
 }

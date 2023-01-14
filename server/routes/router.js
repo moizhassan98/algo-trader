@@ -13,6 +13,8 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
     //Spot
     router.post('/binance/spotorder',Binance_spotCtrl.createSpotOrder)
+    router.get('/binance/spotorder', Binance_spotCtrl.getSpotOrderStatus)
+    router.get('/binance/getallopenspotorders', Binance_spotCtrl.getAllOpenSpotOrders)
 
 
 module.exports = router
