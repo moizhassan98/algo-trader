@@ -14,7 +14,9 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
     //Spot
     router.post('/binance/spotorder',Binance_spotCtrl.createSpotOrder)
     router.get('/binance/spotorder', Binance_spotCtrl.getSpotOrderStatus)
-    router.get('/binance/getallopenspotorders', Binance_spotCtrl.getAllOpenSpotOrders)
-
+    router.get('/binance/getallopenspotorders', Binance_spotCtrl.getAllSpotOrders)
+    router.delete('/binance/spotorder',Binance_spotCtrl.cancelSpotOrder)
+    router.delete('/binance/spotorders', Binance_spotCtrl.cancelAllSpotOrders)
+    router.get('/binance/accountinfo',Binance_spotCtrl.getAccountInfo)
 
 module.exports = router

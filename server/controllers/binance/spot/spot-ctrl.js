@@ -1,7 +1,4 @@
-const getBinanceConnector =  require('../binance-connector')
-const { Spot } = require('@binance/connector')
 const { binance } = require('../helper/binance-api')
-const crypto = require('crypto')
 const {
     createSpotOrderSchema,
 } = require('./validators')
@@ -39,7 +36,6 @@ const createSpotOrder  = async(req,res) =>{
                 quantity
             }
         )
-        console.log(result)
         if(result.status === 200 ){
             return res.status(200).json({
                 result: result.data
@@ -50,6 +46,67 @@ const createSpotOrder  = async(req,res) =>{
             })
         }
         
+    }
+}
+
+const cancelSpotOrder = async(req,res) =>{
+    const body = req.body
+    var userId = body.userId;
+    const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
+    const secretKey = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const apiSecret = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const symbol = 'BTCUSDT';
+    const orderId = 6569201; //Neccesary
+
+    var result = await binance(
+        'https://testnet.binance.vision/api/v3/order',
+        'DELETE',
+        apiKey,
+        apiSecret,
+        {
+            symbol,
+            orderId,
+        }
+    );
+    
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText
+        })
+    }
+}
+
+const cancelAllSpotOrders = async(req,res) =>{
+    const body = req.body
+    var userId = body.userId;
+    const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
+    const secretKey = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const apiSecret = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const symbol = 'BTCUSDT';
+    const orderId = 6569201; //Neccesary
+
+    var result = await binance(
+        'https://testnet.binance.vision/api/v3/openOrders',
+        'DELETE',
+        apiKey,
+        apiSecret,
+        {
+            symbol,
+        }
+    );
+    
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText
+        })
     }
 }
 
@@ -85,7 +142,7 @@ const getSpotOrderStatus = async(req,res) =>{// Getting Forbidden
 
 }
 
-const getAllOpenSpotOrders = async(req,res) =>{
+const getAllSpotOrders = async(req,res) =>{
     // const body = req.body
     // var userId = body.userId;
     const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
@@ -103,7 +160,32 @@ const getAllOpenSpotOrders = async(req,res) =>{
             symbol
         }
     );
-    console.log(result);
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText
+        })
+    }
+}
+
+const getAccountInfo = async(req,res) =>{
+    const apiKey = 'L4UDWLVo5finHFXW3XgRJ2XQ2npLpTgIGxUSsjD9mBIhZfAEZFj61HsRbnEckfSF';
+    const secretKey = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const apiSecret = 'SKlRJTg2WSsZuqev1nE4Mc52H8AN91u5NPSGMnrUtDoQ4eDGQH02RlphAOVHj22g';
+    const symbol = 'BTCUSDT';
+    const orderId = 6569201; //Neccesary
+
+    var result = await binance(
+        'https://testnet.binance.vision/api/v3/account',
+        'GET',
+        apiKey,
+        apiSecret,
+        {
+        }
+    );
     if(result.status === 200 ){
         return res.status(200).json({
             result: result.data
@@ -118,5 +200,8 @@ const getAllOpenSpotOrders = async(req,res) =>{
 module.exports = {
     createSpotOrder,
     getSpotOrderStatus,
-    getAllOpenSpotOrders,
+    getAllSpotOrders,
+    cancelAllSpotOrders,
+    cancelSpotOrder,
+    getAccountInfo,
 }

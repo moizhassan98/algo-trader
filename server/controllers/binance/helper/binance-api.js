@@ -13,8 +13,7 @@ const binance = async(url, method , apiKey, apiSecret, options) =>{
 
     const headers = {
         'X-MBX-APIKEY': apiKey,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'PostmanRuntime/7.30.0'
+        'Content-Type': 'application/x-www-form-urlencoded'
     };
 
     var axiosOptions = {}
