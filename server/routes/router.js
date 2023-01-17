@@ -4,6 +4,7 @@ const router = express.Router()
 const TV_webhookRecieverCtrl = require('../controllers/tradingview/webhookReciever')
 const Binance_marginCtrl = require('../controllers/binance/margin/margin-ctrl')
 const Binance_spotCtrl = require('../controllers/binance/spot/spot-ctrl')
+const Binance_futuresCtrl = require('../controllers/binance/futures/futures-ctrl')
 
 router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
@@ -18,5 +19,8 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
     router.delete('/binance/spotorder',Binance_spotCtrl.cancelSpotOrder)
     router.delete('/binance/spotorders', Binance_spotCtrl.cancelAllSpotOrders)
     router.get('/binance/accountinfo',Binance_spotCtrl.getAccountInfo)
+
+    //Futures
+    router.post('/binance/futuresorder', Binance_futuresCtrl.createFuturesOrder)
 
 module.exports = router
