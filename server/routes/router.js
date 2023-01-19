@@ -22,5 +22,6 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
     //Futures
     router.post('/binance/futuresorder', Binance_futuresCtrl.createFuturesOrder)
+    router.get('/binance/futuresorder', Binance_futuresCtrl.getFuturesOrderStatus)
 
 module.exports = router
