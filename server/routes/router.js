@@ -23,5 +23,7 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
     //Futures
     router.post('/binance/futuresorder', Binance_futuresCtrl.createFuturesOrder)
     router.get('/binance/futuresorder', Binance_futuresCtrl.getFuturesOrderStatus)
+    router.delete('/binance/futuresorder', Binance_futuresCtrl.cancelFuturesOrder)
+    router.delete('/binance/cancelallfuturesorders', Binance_futuresCtrl.cancelAllFuturesOrders)
 
 module.exports = router
