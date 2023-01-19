@@ -1,4 +1,5 @@
 const { binance } = require('../helper/binance-api')
+const fn = require('./functions')
 
 
 const createFuturesOrder = async(req,res) =>{//
@@ -33,6 +34,52 @@ const createFuturesOrder = async(req,res) =>{//
     }
 }
 
+const closeFuturesOrder = async(req,res) =>{
+    const orderId = 3276949096;
+
+    var orderQuery = await fn.getFuturesOrderStatus(orderId);
+
+    if(orderQuery.status === 200){
+        var orderSide = ""
+        if(orderQuery.result.side === "BUY"){
+            orderSide = "SELL"; 
+        }
+        else{
+            orderSide = "BUY";
+        }
+        const orderCreationOptions = {
+            symbol: orderQuery.result.symbol,
+            quantity: parseFloat(orderQuery.result.executedQty),
+            type: "MARKET",
+            side: orderSide
+        }
+
+        var closeOrderQuery = await fn.createFuturesOrder(orderCreationOptions);
+        if(closeOrderQuery.status === 200){
+            return res.status(200).json({
+                success: true,
+                result: closeOrderQuery.result
+            })
+        }
+        else{
+            return res.status(500).json({
+                success: false,
+                error: orderQuery.error,
+                data: orderQuery.data
+            })
+        }
+    }
+    else{
+        return res.status(500).json({
+            success: false,
+            error: orderQuery.error,
+            data: orderQuery.data
+        })
+    }
+
+    
+}
+
 
 const getFuturesOrderStatus = async(req,res) =>{
     const apiKey = process.env.FuturesTestnetApiKey
@@ -46,9 +93,6 @@ const getFuturesOrderStatus = async(req,res) =>{
         {
             symbol: 'BTCUSDT',
             orderId: 3276928701
-            // side: "BUY",
-            // type: "MARKET",
-            // quantity: 0.01
         }
     );
 
@@ -121,9 +165,12 @@ const cancelAllFuturesOrders = async(req,res) =>{// Cancel all unfullfilled orde
     }
 }
 
+
+
 module.exports = {
     createFuturesOrder,
     getFuturesOrderStatus,
+    closeFuturesOrder,
     cancelFuturesOrder,
     cancelAllFuturesOrders,
 }
