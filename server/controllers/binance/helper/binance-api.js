@@ -2,6 +2,9 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const binance = async(url, method , apiKey, apiSecret, options) =>{
+
+    var baseUrl = 'https://testnet.binancefuture.com/'
+
     const timestamp = Date.now();
     var queryString = ""
     for(let prop in options){
@@ -20,7 +23,7 @@ const binance = async(url, method , apiKey, apiSecret, options) =>{
 
     if(method.toLowerCase() === 'post' || method.toLowerCase() === 'put'){
         axiosOptions = {
-            url: url,
+            url: baseUrl + url,
             method: method,
             data: data,
             headers: headers
@@ -28,7 +31,7 @@ const binance = async(url, method , apiKey, apiSecret, options) =>{
     }
     else{
         axiosOptions = {
-            url: url+'?'+data,
+            url: baseUrl + url+'?'+data,
             method: method,
             headers: headers
         }
