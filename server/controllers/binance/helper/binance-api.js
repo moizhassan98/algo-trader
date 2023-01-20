@@ -33,7 +33,6 @@ const binance = async(url, method , apiKey, apiSecret, options) =>{
             headers: headers
         }
     }
-
     var ApiResponse = {}; 
     try {
         ApiResponse = await axios(axiosOptions);

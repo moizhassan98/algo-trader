@@ -1,5 +1,6 @@
 const { binance } = require('../helper/binance-api')
 const fn = require('./functions')
+const account = require('./futures-account')
 
 
 const createFuturesOrder = async(req,res) =>{//
@@ -79,7 +80,6 @@ const closeFuturesOrder = async(req,res) =>{
 
     
 }
-
 
 const getFuturesOrderStatus = async(req,res) =>{
     const apiKey = process.env.FuturesTestnetApiKey
@@ -165,7 +165,67 @@ const cancelAllFuturesOrders = async(req,res) =>{// Cancel all unfullfilled orde
     }
 }
 
+const getAllFuturesOrders = async(req,res) =>{
+    const apiKey = process.env.FuturesTestnetApiKey
+    const apiSecret = process.env.FuturesTestnetApiSecret
 
+    var result = await binance(
+        'https://testnet.binancefuture.com/fapi/v1/allOrders',
+        'GET',
+        apiKey,
+        apiSecret,
+        {
+            symbol: 'BTCUSDT'
+        }
+    );
+
+    if(result.status === 200 ){
+        return res.status(200).json({
+            result: result.data
+        })
+    }else{
+        return res.status(result.response.status).json({
+            error: result.response.statusText,
+            data: result.response.data ? result.response.data : "no data",
+        })
+    }
+}
+
+const getFuturesAccountBalance = async (req,res) =>{
+    var binanceQuery = await account.getFuturesAccountBalance();
+
+    if(binanceQuery.status === 200){
+        return res.status(200).json({
+            success: true,
+            result: binanceQuery.result
+        })
+    }
+    else{
+        return res.status(500).json({
+            success: false,
+            error: binanceQuery.error,
+            data: binanceQuery.data
+        })
+    }
+}
+
+const getFuturesAccountInformation = async(req,res) =>{
+    var binanceQuery = await account.getFuturesAccountInformation();
+
+    if(binanceQuery.status === 200){
+        return res.status(200).json({
+            success: true,
+            result: binanceQuery.result
+        })
+    }
+    else{
+        return res.status(500).json({
+            success: false,
+            error: binanceQuery.error,
+            data: binanceQuery.data
+        })
+    }
+}
 
 module.exports = {
     createFuturesOrder,
@@ -173,4 +233,7 @@ module.exports = {
     closeFuturesOrder,
     cancelFuturesOrder,
     cancelAllFuturesOrders,
+    getAllFuturesOrders,
+    getFuturesAccountBalance,
+    getFuturesAccountInformation,
 }
