@@ -31,4 +31,7 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
     router.get('/binance/futuresbalance', Binance_futuresCtrl.getFuturesAccountBalance)
     router.get('/binance/futuresaccountinfo', Binance_futuresCtrl.getFuturesAccountInformation)
 
+    router.post('/binance/changefuturesleverage',Binance_futuresCtrl.changeFuturesLeverage)
+    router.post('/binance/changefuturesmargintype', Binance_futuresCtrl.changeFuturesMarginType)
+
 module.exports = router

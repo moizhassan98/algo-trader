@@ -1,6 +1,7 @@
 const { binance } = require('../helper/binance-api')
 const fn = require('./functions')
 const account = require('./futures-account')
+const setting = require('./futures-settings')
 
 
 const createFuturesOrder = async(req,res) =>{//
@@ -227,6 +228,48 @@ const getFuturesAccountInformation = async(req,res) =>{
     }
 }
 
+const changeFuturesLeverage = async(req,res) =>{
+    var binanceQuery = await setting.changeFuturesLeverage({
+        symbol: 'BTCUSDT',
+        leverage: 5
+    });
+
+    if(binanceQuery.status === 200){
+        return res.status(200).json({
+            success: true,
+            result: binanceQuery.result
+        })
+    }
+    else{
+        return res.status(500).json({
+            success: false,
+            error: binanceQuery.error,
+            data: binanceQuery.data
+        })
+    }
+}
+
+const changeFuturesMarginType = async(req,res) =>{
+    var binanceQuery = await setting.changeFuturesLeverage({
+        symbol: 'BTCUSDT',
+        marginType: 'ISOLATED'
+    });
+
+    if(binanceQuery.status === 200){
+        return res.status(200).json({
+            success: true,
+            result: binanceQuery.result
+        })
+    }
+    else{
+        return res.status(500).json({
+            success: false,
+            error: binanceQuery.error,
+            data: binanceQuery.data
+        })
+    }
+}
+
 module.exports = {
     createFuturesOrder,
     getFuturesOrderStatus,
@@ -236,4 +279,6 @@ module.exports = {
     getAllFuturesOrders,
     getFuturesAccountBalance,
     getFuturesAccountInformation,
+    changeFuturesLeverage,
+    changeFuturesMarginType,
 }
