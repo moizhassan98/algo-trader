@@ -7,7 +7,7 @@ const getFuturesAccountBalance = async() =>{
     // console.log(apiKey,apiSecret);
 
     var result = await binance(
-        'fapi/v2/balance',
+        '/fapi/v2/balance',
         'GET',
         apiKey,
         apiSecret,
@@ -36,7 +36,7 @@ const getFuturesAccountInformation = async() =>{
     // console.log(apiKey,apiSecret);
 
     var result = await binance(
-        'fapi/v2/account',
+        '/fapi/v2/account',
         'GET',
         apiKey,
         apiSecret,

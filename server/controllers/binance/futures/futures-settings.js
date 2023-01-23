@@ -5,7 +5,7 @@ const changeFuturesMarginType = async(options) =>{
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/marginType',
+        '/fapi/v1/marginType',
         'POST',
         apiKey,
         apiSecret,
@@ -32,7 +32,7 @@ const changeFuturesLeverage = async(options) =>{
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/leverage',
+        '/fapi/v1/leverage',
         'POST',
         apiKey,
         apiSecret,

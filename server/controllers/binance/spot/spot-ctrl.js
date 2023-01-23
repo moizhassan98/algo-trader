@@ -25,7 +25,7 @@ const createSpotOrder  = async(req,res) =>{
 
 
         var result = await binance(
-            'https://testnet.binance.vision/api/v3/order',
+            '/api/v3/order',
             'POST',
             apiKey,
             apiSecret,
@@ -59,7 +59,7 @@ const cancelSpotOrder = async(req,res) =>{
     const orderId = 6569201; //Neccesary
 
     var result = await binance(
-        'https://testnet.binance.vision/api/v3/order',
+        '/api/v3/order',
         'DELETE',
         apiKey,
         apiSecret,
@@ -90,7 +90,7 @@ const cancelAllSpotOrders = async(req,res) =>{
     const orderId = 6569201; //Neccesary
 
     var result = await binance(
-        'https://testnet.binance.vision/api/v3/openOrders',
+        '/api/v3/openOrders',
         'DELETE',
         apiKey,
         apiSecret,
@@ -120,7 +120,7 @@ const getSpotOrderStatus = async(req,res) =>{// Getting Forbidden
     const orderId = 6569201; //Neccesary
 
     var result = await binance(
-        'https://testnet.binance.vision/api/v3/order',
+        '/api/v3/order',
         'GET',
         apiKey,
         apiSecret,
@@ -152,7 +152,7 @@ const getAllSpotOrders = async(req,res) =>{
     const orderId = 6569201; //Neccesary
 
     var result = await binance(
-        'https://testnet.binance.vision/api/v3/allOrders',
+        '/api/v3/allOrders',
         'GET',
         apiKey,
         apiSecret,
@@ -179,7 +179,7 @@ const getAccountInfo = async(req,res) =>{
     const orderId = 6569201; //Neccesary
 
     var result = await binance(
-        'https://testnet.binance.vision/api/v3/account',
+        '/api/v3/account',
         'GET',
         apiKey,
         apiSecret,

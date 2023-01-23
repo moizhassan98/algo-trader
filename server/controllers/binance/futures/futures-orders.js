@@ -14,7 +14,7 @@ const createFuturesOrder = async(options) =>{
     // console.log(apiKey,apiSecret);
 
     var result = await binance(
-        'fapi/v1/order',
+        '/fapi/v1/order',
         'POST',
         apiKey,
         apiSecret,
@@ -89,7 +89,7 @@ const getFuturesOrderStatus = async(options) =>{
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/order',
+        '/fapi/v1/order',
         'GET',
         apiKey,
         apiSecret,
@@ -118,7 +118,7 @@ const cancelFuturesOrder = async(options) => { //it only cancels the non fulfill
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/order',
+        '/fapi/v1/order',
         'DELETE',
         apiKey,
         apiSecret,
@@ -146,7 +146,7 @@ const cancelAllFuturesOrders = async(options) =>{// Cancel all unfullfilled orde
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/allOpenOrders',
+        '/fapi/v1/allOpenOrders',
         'DELETE',
         apiKey,
         apiSecret,
@@ -174,7 +174,7 @@ const getAllFuturesOrders = async(options) =>{
     const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
-        'fapi/v1/allOrders',
+        '/fapi/v1/allOrders',
         'GET',
         apiKey,
         apiSecret,
