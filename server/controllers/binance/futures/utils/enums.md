@@ -41,6 +41,7 @@
     - TAKE_PROFIT_MARKET
     - TRAILING_STOP_MAR
     - KET
+    
 ## Order side (side):
 
     - BUY
