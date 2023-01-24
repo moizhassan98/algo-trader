@@ -8,12 +8,6 @@ const {
 } = require('./utils/validators')
 
 
-/**
- * Function creates a new VP new order
- * @param {number} a - first number
- * @return {number} - sum of two numbers
- */
-
 const createFuturesOrder = async(options) =>{
     const apiKey = process.env.FuturesTestnetApiKey
     const apiSecret = process.env.FuturesTestnetApiSecret
