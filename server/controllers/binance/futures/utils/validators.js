@@ -95,23 +95,32 @@ const getAllFuturesOrdersSchema = Joi.object({
 //#endregion
 
 /////////////////////////////////////////////////////////////
-//////////          futures-account.js             /////////
-///////////////////////////////////////////////////////////
-//#region futures-account.js
-
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//xxxxxxxxxxx       END futures-account.js     xxxxxxxxxxxxx
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//#endregion
-
-/////////////////////////////////////////////////////////////
 //////////          futures-settings.js             ////////
 ///////////////////////////////////////////////////////////
 //#region futures-settings.js
 
+const changeFuturesMarginTypeSchema = Joi.object({
+    symbol: Joi.string().required(),
+    marginType: Joi.string().valid(["CROSSED","ISOLATED"]).required()
+});
+
+const changeFuturesLeverageSchema = Joi.object({
+    symbol: Joi.string().required(),
+    leverage: Joi.string().integer().min(1).max(125)
+});
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //xxxxxxxxxxx       END futures-settings.js     xxxxxxxxxxxx
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //#endregion
+
+
+module.exports = {
+    createFuturesOrderSchema,
+    getFuturesOrderStatusSchema,
+    cancelFuturesOrderSchema,
+    cancelAllFuturesOrdersSchema,
+    getAllFuturesOrdersSchema,
+    changeFuturesMarginTypeSchema,
+    changeFuturesLeverageSchema,
+}
