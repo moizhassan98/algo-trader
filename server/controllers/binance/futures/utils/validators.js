@@ -2,10 +2,6 @@ const Joi = require('@hapi/joi');
 const enums = require('./enums');
 const enumsInArray = require('./enumsInArray');
 
-const createFuturesOrderScheme = Joi.object({
-    symbol: Joi.string().required(),
-    side: Joi.string().valid("SELL","BUY").required(),
-})
 
 /////////////////////////////////////////////////////////////
 //////////          futures-orders.js             //////////
@@ -69,24 +65,28 @@ const createFuturesOrderSchema = Joi.object({
     newOrderRespType: Joi.string().valid(enumsInArray(enums.responseType)),
 });
 
-const closeFuturesOrderSchema = Joi.object({
-
-});
-
 const getFuturesOrderStatusSchema = Joi.object({
-
-});
+    symbol: Joi.string().required(),
+    orderId: Joi.number().long().optional(),
+    origClientOrderId: Joi.string().optional()
+}).or('orderId','origClientOrderId');
 
 const cancelFuturesOrderSchema = Joi.object({
-
-});
+    symbol: Joi.string().required(),
+    orderId: Joi.number().long().optional(),
+    origClientOrderId: Joi.string().optional()
+}).or('orderId','origClientOrderId');
 
 const cancelAllFuturesOrdersSchema = Joi.object({
-
+    symbol: Joi.string().required()
 });
 
 const getAllFuturesOrdersSchema = Joi.object({
-
+    symbol: Joi.string().required(),
+    orderId: Joi.number().long().optional(),
+    startTime: Joi.number().long().optional(),
+    endTime: Joi.number().long().optional(),
+    limit: Joi.number().integer().min(0).max(1000).optional() //default is 500.
 });
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
