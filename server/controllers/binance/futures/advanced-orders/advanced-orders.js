@@ -1,4 +1,4 @@
-const order = require('./futures-account')
+const order = require('../futures-account')
 
 
 const closeFuturesOrder = async({orderId,symbol}) =>{ //possibly in advanced orders.

@@ -1,0 +1,2 @@
+- add rate limit precautions in binance api.
+- for auth from trading view we can have a new collection where document IDs can be same as user and has decrypting key for the hashed and encoded string that we recieve from the trading view. or encryption key as document id.
