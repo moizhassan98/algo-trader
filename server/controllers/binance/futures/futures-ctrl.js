@@ -2,7 +2,7 @@ const { binance } = require('../helper/binance-api')
 const account = require('./futures-account')
 const setting = require('./futures-settings')
 const order = require('./futures-orders')
-const advancedOrders = require('./advanced-orders')
+const advancedOrders = require('./advanced-orders/advanced-orders')
 
 function responseHandler(binanceQuery,res){
     if(binanceQuery.status === 200){
@@ -24,10 +24,10 @@ function responseHandler(binanceQuery,res){
 const createFuturesOrder = async(req,res) =>{//
 
     var binanceQuery = await order.createFuturesOrder({
-        symbol: 'BTCUSDT',
-        side: "SELL",
+        symbol: 'VETUSDT',
+        side: "BUY",
         type: "MARKET",
-        quantity: 0.01,
+        quantity: 4207.5,
     })
 
     responseHandler(binanceQuery, res);
