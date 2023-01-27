@@ -2,5 +2,7 @@
 **/build
 *-lock.json
 serviceAccountKey.json
+serviceAccountKey-us.json
 binance.md
 *.env
+**.log

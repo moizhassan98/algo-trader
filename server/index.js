@@ -2,12 +2,10 @@ require('dotenv').config();
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
-
-// const db = require('./db')
 const firebase = require('./firebase')
 const db = require('./db')
 const router = require('./routes/router')
+
 
 
 const app = express()
