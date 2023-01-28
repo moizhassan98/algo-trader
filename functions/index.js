@@ -13,7 +13,7 @@ const cors = require("cors")({ origin: true });
 //   response.send("Hello from Firebase!");
 // });
 
-exports.binanceFuturesSymbols = functions.https.onRequest((req,res)=>{
+exports.binanceFuturesSymbols = functions.region('europe-west1').https.onRequest((req,res)=>{
    
         axios.get('https://fapi.binance.com/fapi/v1/exchangeInfo',{
             headers:{

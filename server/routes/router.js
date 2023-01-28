@@ -5,6 +5,7 @@ const TV_webhookRecieverCtrl = require('../controllers/tradingview/webhookReciev
 const Binance_marginCtrl = require('../controllers/binance/margin/margin-ctrl')
 const Binance_spotCtrl = require('../controllers/binance/spot/spot-ctrl')
 const Binance_futuresCtrl = require('../controllers/binance/futures/futures-ctrl')
+const Binance_futuresAdvancedCtrl = require('../controllers/binance/futures/advanced-orders/advanced-orders-ctrl')
 
 router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
@@ -33,5 +34,7 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
     router.post('/binance/changefuturesleverage',Binance_futuresCtrl.changeFuturesLeverage)
     router.post('/binance/changefuturesmargintype', Binance_futuresCtrl.changeFuturesMarginType)
+
+    router.post('/binance/fixeddollarfutures', Binance_futuresAdvancedCtrl.createFixedDollarOrder)
 
 module.exports = router
