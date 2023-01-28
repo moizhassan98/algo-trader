@@ -1,4 +1,5 @@
 const { fixedDollarOrder }= require('./fixedDollarOrder')
+const { percentageOrder } = require('./percentageOrder')
 
 function responseHandler(binanceQuery,res){
     if(binanceQuery.status === 200){
@@ -26,6 +27,18 @@ const createFixedDollarOrder = async(req,res) =>{
     responseHandler(query,res);
 }
 
+const createPercentageOrder = async(req,res) =>{
+    var query = await percentageOrder({
+        symbol: 'AAVEUSDT',
+        percentage: 0.1,
+        orderSide: 'SELL'
+    })
+
+    responseHandler(query,res);
+}
+
+
 module.exports = {
     createFixedDollarOrder,
+    createPercentageOrder
 }

@@ -58,7 +58,30 @@ const getFuturesAccountInformation = async() =>{
     }
 }
 
+/**
+ * gets the amount of asset in account. This function id mainly for FUTURES account balance of one asset.
+ * @param {string} asset Asset name for which you need balance. like 'USDT', 'BTC'
+ * @returns {number} balance amount in the account. If errored then returns -1.
+ */
+const getAccountBalanceForAsset = async(asset) =>{
+    var query = await getFuturesAccountBalance();
+
+    if(query.status === 200){
+        var assetBalance = -1
+        query.result.map((queryAsset)=>{
+            if(queryAsset.asset === asset){
+                assetBalance = queryAsset.balance
+            }
+        })
+        return assetBalance
+    }
+    else{
+        return -1
+    }
+}
+
 module.exports = {
     getFuturesAccountBalance,
     getFuturesAccountInformation,
+    getAccountBalanceForAsset,
 }
