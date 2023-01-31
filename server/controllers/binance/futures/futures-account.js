@@ -80,8 +80,44 @@ const getAccountBalanceForAsset = async(asset) =>{
     }
 }
 
+
+/**
+ * get current position on a symbol like BTCUSDT
+ * 
+ * @param {string} symbol symbol for which you need the position for.
+ * @returns {Object} 
+ */
+const getPositionForSymbol = async(symbol) =>{
+    const apiKey = process.env.FuturesTestnetApiKey
+    const apiSecret = process.env.FuturesTestnetApiSecret
+
+    var result = await binance(
+        '/fapi/v2/positionRisk',
+        'GET',
+        apiKey,
+        apiSecret,
+        {
+            symbol
+        }
+    );
+
+    if(result.status === 200 ){
+        return ({
+            status: 200,
+            result: result.data
+        })
+    }else{
+        return ({
+            status: 500,
+            error: result.response.statusText,
+            data: result.response.data ? result.response.data : "no data",
+        })
+    }
+}
+
 module.exports = {
     getFuturesAccountBalance,
     getFuturesAccountInformation,
     getAccountBalanceForAsset,
+    getPositionForSymbol,
 }

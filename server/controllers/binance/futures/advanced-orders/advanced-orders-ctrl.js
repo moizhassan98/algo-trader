@@ -1,5 +1,6 @@
 const { fixedDollarOrder }= require('./fixedDollarOrder')
 const { percentageOrder } = require('./percentageOrder')
+const {closeAllOrders} = require('./closeAllOrders')
 
 function responseHandler(binanceQuery,res){
     if(binanceQuery.status === 200){
@@ -37,8 +38,16 @@ const createPercentageOrder = async(req,res) =>{
     responseHandler(query,res);
 }
 
+const closeAllOrdersForSymbol = async(req,res) =>{
+    var query = await closeAllOrders({
+        symbol: 'LTCUSDT'
+    })
+
+    responseHandler(query,res);
+}
 
 module.exports = {
     createFixedDollarOrder,
-    createPercentageOrder
+    createPercentageOrder,
+    closeAllOrdersForSymbol
 }

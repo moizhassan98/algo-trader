@@ -21,23 +21,23 @@ const percentageOrder = async(options) =>{
     const {error} = percentageOrderSchema.validate(options);
 
     if(error){
-        return error(400,error)
+        return errorHandler(400,error)
     }
     else{
         var baseAssetMarkPrice = await getAssetMarkPrice(options.symbol);
         if(baseAssetMarkPrice === -1){
-            return error(400,'The symbol provided not supported. Got error getting MarkPrice!')
+            return errorHandler(400,'The symbol provided not supported. Got error getting MarkPrice!')
         }
         else{
-            var dbAssetData = await(await (db.collection('binanceFuturesSymbols').doc(options.symbol).get())).data()
+            var dbAssetData = await(await (db.collection('binanceFuturesSymbols').doc(options.symbol).get())).data() 
             if(!dbAssetData){
-                return error(400,'The symbol provided not supported. Got error getting from DB!')
+                return errorHandler(400,'The symbol provided not supported. Got error getting from DB!')
             }
             else{
                 var marginAsset = dbAssetData.marginAsset
                 var marginAssetAccountBalance = await account.getAccountBalanceForAsset(marginAsset)
                 if(marginAssetAccountBalance === -1){
-                    return error(500,'Unable to get the asset balance from account!')
+                    return errorHandler(500,'Unable to get the asset balance from account!')
                 }
                 else{
                     var percentageDollarAmount = Number(options.percentage * marginAssetAccountBalance)
@@ -93,7 +93,7 @@ function responseHandler(binanceQuery){
     }
 }
 
-function error(status,text){
+function errorHandler(status,text){
     return ({
         status: status,
         success: false,

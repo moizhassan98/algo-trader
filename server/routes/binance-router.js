@@ -37,5 +37,6 @@ router.get('/test', TV_webhookRecieverCtrl.recieveTest)
 
     router.post('/binance/fixeddollarfutures', Binance_futuresAdvancedCtrl.createFixedDollarOrder)
     router.post('/binance/percentagefutures', Binance_futuresAdvancedCtrl.createPercentageOrder)
+    router.post('/binance/closeallfutures', Binance_futuresAdvancedCtrl.closeAllOrdersForSymbol)
 
 module.exports = router

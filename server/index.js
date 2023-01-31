@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const firebase = require('./firebase')
 const db = require('./db')
-const router = require('./routes/router')
+const binanceRouter = require('./routes/binance-router')
 
 
 
@@ -22,6 +22,6 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.use('/api', router)
+app.use('/api', binanceRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))
