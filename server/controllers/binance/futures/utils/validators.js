@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 const enums = require('./enums');
-const { enumsInArray } = require('./enumsInArray');
+const { enumsInArray } = require('../../helper/enumsInArray');
 
 
 /////////////////////////////////////////////////////////////
