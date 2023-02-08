@@ -2,6 +2,12 @@ const Joi = require('@hapi/joi');
 const enums = require('./enums');
 const { enumsInArray } = require('../../helper/enumsInArray');
 
+
+/////////////////////////////////////////////////////////////
+//////////          spot-orders.js             //////////
+///////////////////////////////////////////////////////////
+//#region spot-orders.js
+
 const createSpotOrderSchema = Joi.object({
     symbol: Joi.string().required(),
     side: Joi.string().valid(...enumsInArray(enums.orderSide)).required(),
@@ -137,7 +143,14 @@ const getAllSpotOrders = Joi.object({
     startTime: Joi.number().optional(),
     endTime: Joi.number().optional(),
     limit: Joi.number().integer().min(0).max(1000).optional() //default is 500.
-})
+});
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxxxxxxxx       END spot-orders.js     xxxxxxxxxxxxx
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//#endregion
+
+
 
 module.exports = {
     createSpotOrderSchema,

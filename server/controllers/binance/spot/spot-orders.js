@@ -13,7 +13,7 @@ const createSpotOrder = async(options) =>{
         options,
     );
 
-    responseHandler(result);
+    return responseHandler(result);
 }
 
 const getSpotOrderStatus = async(options) =>{
@@ -28,7 +28,7 @@ const getSpotOrderStatus = async(options) =>{
         options,
     );
 
-    responseHandler(result);
+    return responseHandler(result);
 }
 
 const cancelOpenSpotOrders = async(options) =>{
@@ -43,7 +43,7 @@ const cancelOpenSpotOrders = async(options) =>{
         options,
     );
 
-    responseHandler(result);
+    return responseHandler(result);
 }
 
 const cancelAllOpenSpotOrders = async(options) =>{
@@ -58,7 +58,7 @@ const cancelAllOpenSpotOrders = async(options) =>{
         options,
     );
 
-    responseHandler(result);
+    return responseHandler(result);
 }
 
 const getAllSpotOrders = async(options) =>{
@@ -73,7 +73,7 @@ const getAllSpotOrders = async(options) =>{
         options,
     );
 
-    responseHandler(result);
+    return responseHandler(result);
 }
 
 module.exports = {
