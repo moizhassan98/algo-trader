@@ -10,30 +10,28 @@ const checkTradingViewAuth = async(encodedData) =>{
 
     var user = await userRef.get();
     if(!user.exists){//user not found
-        console.log("USER DOESN'T EXIST")
-        return errorHandler();
+        return errorHandler("User Doesn't Exist");
     }else{
-        console.log("USER EXISTS")
         var decryptionKey = await (await userRef.collection('keys').doc('key').get()).data().value
-        var decryptedText = cryptoHelper.decrypt(encryptedData, decryptionKey);
-        console.log("decrypted Data: ",decryptedText)
-
+        try{
+            var decryptedText = cryptoHelper.decrypt(encryptedData, decryptionKey);
+        }
+        catch(err){
+            return errorHandler("Error in Decrypting")
+        }
+        
         const decryptedUserId = decryptedText.split("_|_")[0]
         const botId = decryptedText.split("_|_")[1]
 
         if(decryptedUserId !== decodedUserId){
-            console.log("USERS DON'T MATCH");
-            return errorHandler();
+            return errorHandler("Malformed! Users don't match in decoded and decrypted!");
         }
         else{
-            console.log("USERS MATCH");
             var bot = await userRef.collection('bots').doc(botId).get()
             if(!bot.exists){
-                console.log("BOT DON'T MATCH")
-                return errorHandler()
+                return errorHandler("User doesn't have a Bot with the specified ID!")
             }
             else{
-                console.log("BOT MATCH")
                 var botData = await bot.data()
                 return botData
             }
@@ -46,11 +44,11 @@ const checkTradingViewAuth = async(encodedData) =>{
 module.exports = {
     checkTradingViewAuth
 }
-//ZWViNTFmNGYwMGJlYmMxYTcxMzc4OWNmZTMyZTFlYzg6NGM0ZTI3N2JmOWI0NjAyMzNiYzk2M2I3MjI4MzZmOTNmNDNlMjUzYzVhODlmMWVmNWQ3YTg5MjU1MTY4NzBjMDA4YmIzOGJlODU2M2QwMmUzNzdlMDE=
 
-
-function errorHandler(res){
+function errorHandler(error){
     return ({
         success: false,
+        status: 400,
+        error: error
     })
 }
