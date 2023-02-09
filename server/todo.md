@@ -55,12 +55,12 @@
 
     -> After Account start Ask for Broker Connection -> fill in broker info on Brokers Collection
 
-    -> Creating a BOT -> check if broker connected -> connect Broker flow if not connected -> otherwise -> bot name -> Broker selection from already available brokers -> bot symbol choose -> Account type choose (SPOT,FUTURES) -> if FUTURES choose leverage and leverage type -> then continue for both type of trade (Fixed Dollar,Percentage,Quantity) -> encryptWithPublicKey(`email+_|_+botID`) -> encode64(`email+_|_publicKey+_|_+encryptedData`) -> save in data fireld of the bot and display to user to input in webhook url and data in body.
+    -> Creating a BOT -> check if broker connected -> connect Broker flow if not connected -> otherwise -> bot name -> Broker selection from already available brokers -> bot symbol choose -> Account type choose (SPOT,FUTURES) -> if FUTURES choose leverage and leverage type -> then continue for both type of trade (Fixed Dollar,Percentage,Quantity) -> encryptWithPublicKey(`userId+_|_+botID`) -> encode64(`userId+_|_+encryptedData`) -> save in data fireld of the bot and display to user to input in webhook url and data in body.
 
     -> in TV Data field in body {
         side: "BUY"|"SELL"|"BUY CLOSE"|"SELL CLOSE",// this would be sent in alert not in body. We can define what are the signal. BUY,SELL,Close ALL
         data: encodedEncryptedData
-    } -> request Recieved on Server -> get Email, publicKey, encryptedData -> check email exist otherwise reject -> check if public key exist on that account otherwise reject -> get private key and decrypt the encrypted Data -> check if email from decrypted data is same -> check of the bot exist with same bot ID ->  get side from the Trading View request (BUY,SELL, etc.) -> using Bot info execute the trade.
+    } -> request Recieved on Server -> get userID, publicKey, encryptedData -> check email exist otherwise reject -> check if public key exist on that account otherwise reject -> get private key and decrypt the encrypted Data -> check if email from decrypted data is same -> check of the bot exist with same bot ID ->  get side from the Trading View request (BUY,SELL, etc.) -> using Bot info execute the trade.
 
 - Change the Advanced Function relying on firestore for symbols.
 - start/stop bot.
