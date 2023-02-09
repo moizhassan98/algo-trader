@@ -47,3 +47,5 @@ module.exports = {
   encrypt,
   decrypt
 }
+
+// console.log(Buffer.from(encrypt("2gkuKUjiUtov82pEvbn3_|_ef2TZb14OU80rHpPgEgs","517f952d8a4c2105b9053810f585a7d68b7abb228e78a30b327adda29aa486be")).toString('base64'))
