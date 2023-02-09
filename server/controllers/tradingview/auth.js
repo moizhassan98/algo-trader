@@ -33,7 +33,19 @@ const checkTradingViewAuth = async(encodedData) =>{
             }
             else{
                 var botData = await bot.data()
-                return botData
+                if(botData.active !== true){
+                    return errorHandler("Bot isn't active!");
+                }
+                else{
+                    return ({
+                        success: true,
+                        status: 200,
+                        result: {
+                            userId: decodedUserId,
+                            botId
+                        }
+                    })
+                }
             }
         }
     }
