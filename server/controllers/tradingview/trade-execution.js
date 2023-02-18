@@ -17,27 +17,28 @@ const tradeExecution = async(tradeSide,userId,botData,apiKeys) =>{
             await binanceFuturesSettings.changeFuturesMarginType({
                 symbol: botData.symbol,
                 marginType:botData.leverageType
-            });
+            })
 
             await binanceFuturesSettings.changeFuturesLeverage({
                 symbol: botData.symbol,
                 leverage:botData.botLeverage
-            });
+            })
 
             
+            let response = await binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys)
 
-
+            return response
         }
         if(botData.accountType === "SPOT"){
-            return errorHandler(500,`Currently Implementing SPOT Trading!`)
+            return errorHandler(501,`Currently Implementing SPOT Trading!`)
         }
         if(botData.accountType === "MARGIN"){
-            return errorHandler(500,`MARGIN Trading not implemented!`)
+            return errorHandler(501,`MARGIN Trading not implemented!`)
         }
         return errorHandler(400,`Invalid account type in Broker ${botData.brokerId}`)
     }
     else{
-        return errorHandler(500,`Broker ${botData.brokerId} not implemented!`)
+        return errorHandler(501,`Broker ${botData.brokerId} not implemented!`)
     }
 }
 
@@ -45,8 +46,27 @@ module.exports ={
     tradeExecution
 }
 
-function futuresOrder(){
+async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
+    if(botData.typeOfOrder === "FIXED_PERCENTAGE"){
+        let result = await binanceFuturesAdvOrders.percentageOrder({
+            symbol: botData.symbol,
+            percentage: botData.fixedPercentage,
+            orderSide: tradeSide
+        })
 
+        return responseHandler(result)
+
+    }
+    if(botData.typeOfOrder === "FIXED_DOLLAR_AMOUNT"){
+        let result = await binanceFuturesAdvOrders.fixedDollarOrder({
+            symbol: botData.symbol,
+            fixedDollarAmount: botData.fixedDollarAmount,
+            orderSide: tradeSide
+        })
+
+        return responseHandler(result);
+    }
+    return errorHandler(400,`can't execute the advanced order of type: ${botData.typeOfOrder}`)
 }
 
 function errorHandler(status,err){
@@ -59,16 +79,18 @@ function errorHandler(status,err){
 
 function responseHandler(binanceQuery){
     if(binanceQuery.status === 200){
-        return res.status(200).json({
+        return ({
             success: true,
+            status: 200,
             result: binanceQuery.result
         })
     }
     else{
-        return res.status(binanceQuery.status).json({
+        return ({
             success: false,
+            status: 500,
             error: binanceQuery.error,
-            data: binanceQuery.data
+            data: binanceQuery.data ? binanceQuery.data : "no data"
         })
     }
 }
