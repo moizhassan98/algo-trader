@@ -2,7 +2,9 @@ const db = require('../../db')
 const {
     checkTradingViewAuth
 } = require('./auth')
-const { tradeExecution} = require('./trade-execution')
+const {
+    tradeExecution
+} = require('./trade-execution')
 const {
     getBotData,
     getBrokerApiKeys
@@ -29,14 +31,14 @@ const recieveTest = async(req,res) =>{
         const botData = await getBotData(userId,botId);
         const apiKeys = await getBrokerApiKeys(userId,botData.brokerId)
 
-        var tradeExecution = await tradeExecution(
+        var tradeExecutionResponse = await tradeExecution(
             tradeSide,
             userId,
             botData,
             apiKeys
         );
 
-        responseHandler(tradeExecution,res);
+        responseHandler(tradeExecutionResponse,res);
     }
 
     
@@ -52,11 +54,13 @@ function responseHandler(result,res){
     if(result.success === false){
         return res.status(500).json({
             success: false,
+            result
         })
     }
     else{
         return res.status(200).json({
             success: true,
+            result
         })
     }
 }
