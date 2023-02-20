@@ -1,0 +1,29 @@
+
+
+.red{
+    background-color: red;
+}
+
+.login-card{
+    border-radius: 10px;
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+
+}
+
+.signin-btn{
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.btn-google-signin{
+    background-color: #eaecef;
+    color: black;
+    border: 0;
+    margin: 25px;
+    width: 50%;
+}

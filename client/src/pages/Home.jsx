@@ -8,6 +8,10 @@ import {
 const Home = () =>{
     return (
         <Container>
+            <Row>
+                <Col>
+                H</Col>
+            </Row>
             Hello
         </Container>
     )
