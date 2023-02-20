@@ -4,6 +4,7 @@ import {
     Form, FormGroup, Label, Input, Button, Alert, Spinner
 } from 'reactstrap';
 import {getAuth,signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
+import firebase from '../../config/firebase';
 
 
 const LoginCard = () =>{
