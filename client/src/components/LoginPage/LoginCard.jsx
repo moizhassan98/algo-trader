@@ -5,7 +5,9 @@ import {
 } from 'reactstrap';
 import {getAuth,signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
 
-import { firebase } from '../../config/firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+
+import { firebase, db } from '../../config/firebase';
 
 
 const LoginCard = () =>{
@@ -22,15 +24,17 @@ const LoginCard = () =>{
     useEffect(()=>{
         const auth = getAuth();
         getRedirectResult(auth)
-            .then((result) => {
+            .then(async(result) => {
                 // This gives you a Google Access Token. You can use it to access Google APIs.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
 
                 // The signed-in user info.
                 const user = result.user;
+                await createUserInFirestore(user)
                 console.log("SIGNED IN USER: ",user)
-                navigate('/home',{replace: true})
+                await saveTokenToSessionStorage()
+                navigate('/dashboard',{replace: true})
 
                 //TODO: If new user new create a users doc in db.
 
@@ -68,6 +72,7 @@ const LoginCard = () =>{
         validatePassword();
         if(!emailError && !passwordError){
             await signInWithEmailPass()
+
         }
     };
 
@@ -75,10 +80,11 @@ const LoginCard = () =>{
         setAuthResponse('WAIT')
         const auth = getAuth();
         signInWithEmailAndPassword(auth,email.trim(),password.trim())
-            .then((res)=>{
+            .then(async(res)=>{
                 console.log(res)
                 setAuthResponse('')
-                navigate('/home',{replace: true})
+                await saveTokenToSessionStorage()
+                navigate('/dashboard',{replace: true})
             })
             .catch((err)=>{
                 console.log("Wrong Email or Password!")
@@ -93,6 +99,21 @@ const LoginCard = () =>{
         signInWithRedirect(auth, provider);
     }
 
+    const createUserInFirestore = async(user) =>{
+        // check if the user already exists then don't add. Give an error message
+        const {email, uid, emailVerified} = user
+        await setDoc(doc(db,"users",uid),{
+            email,
+            emailVerified
+        })
+        
+    }
+
+    const saveTokenToSessionStorage = async() =>{
+        const auth = getAuth();
+        var authToken = await auth.currentUser.getIdToken(true);
+        sessionStorage.setItem('authToken',authToken)
+    }
 
     return ( pageLoading===true ? <Spinner/> :
         <div className="login-card">

@@ -30,10 +30,8 @@ const SignupCard = () =>{
                 const user = result.user;
                 await createUserInFirestore(user)
                 console.log("SIGNED IN USER: ",user)
-                // navigate('/home',{replace: true})
-                // Do some sign up stuff for db.
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
+                await saveTokenToSessionStorage()
+                navigate('/dashboard',{replace: true})
             }).catch((error) => {
                 setPageLoading(false)
             });
@@ -64,6 +62,7 @@ const SignupCard = () =>{
         validatePassword();
         if(!emailError && !passwordError){
             await signupWithEmailPass()
+
         }
     };
 
@@ -71,9 +70,11 @@ const SignupCard = () =>{
         setAuthResponse('WAIT')
         const auth = getAuth();
         createUserWithEmailAndPassword(auth,email.trim(),password.trim())
-            .then((userCredential)=>{
-                createUserInFirestore(userCredential.user);
+            .then(async (userCredential)=>{
+                await createUserInFirestore(userCredential.user);
                 setAuthResponse('')
+                await saveTokenToSessionStorage()
+                navigate('/dashboard',{replace: true})
             })
             .catch((error)=>{
                 if(error.code === "auth/email-already-in-use"){
@@ -102,7 +103,11 @@ const SignupCard = () =>{
         
     }
 
-
+    const saveTokenToSessionStorage = async() =>{
+        const auth = getAuth();
+        var authToken = await auth.currentUser.getIdToken(true);
+        sessionStorage.setItem('authToken',authToken)
+    }
 
     return ( pageLoading===true ? <Spinner/> :
         <div className="login-card">

@@ -6,8 +6,8 @@ import '../styles/App.css'
 
 import Home from '../pages/Home'
 import LoginPage from '../pages/LoginPage'
-import LoginRedirect from '../pages/LoginRedirect';
 import SignupPage from '../pages/SignupPage';
+import Dashboard from '../pages/Dashboard';
 
 
 function App(){
@@ -17,7 +17,7 @@ function App(){
                 <Route path='/' element={<Home />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/signup' element={<SignupPage />} />
-                <Route path='/redirect' element={<LoginRedirect />} />
+                <Route path='/dashboard' element={<Dashboard />} />
             </Routes>
         </Router>
     )
