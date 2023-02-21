@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import {
     Form, FormGroup, Label, Input, Button, Alert, Spinner
 } from 'reactstrap';
-import {getAuth,signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
+import {getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult} from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
-import { firebase } from '../../config/firebase';
+import { firebase, db } from '../../config/firebase';
 
-
-const LoginCard = () =>{
-
+const SignupCard = () =>{
     const navigate = useNavigate()
 
     const [email, setEmail] = useState('');
@@ -22,24 +21,21 @@ const LoginCard = () =>{
     useEffect(()=>{
         const auth = getAuth();
         getRedirectResult(auth)
-            .then((result) => {
+            .then(async(result) => {
                 // This gives you a Google Access Token. You can use it to access Google APIs.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
 
                 // The signed-in user info.
                 const user = result.user;
+                await createUserInFirestore(user)
                 console.log("SIGNED IN USER: ",user)
-                navigate('/home',{replace: true})
-
-                //TODO: If new user new create a users doc in db.
-
+                // navigate('/home',{replace: true})
+                // Do some sign up stuff for db.
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
             }).catch((error) => {
                 setPageLoading(false)
-                // Handle Errors here.
-                console.log("google sign in error: ", error)
             });
     },[])
 
@@ -62,45 +58,64 @@ const LoginCard = () =>{
     };
 
     const handleSubmit = async(event) => {
-        console.log("submit called")
+        setAuthResponse('')
         event.preventDefault();
         validateEmail();
         validatePassword();
         if(!emailError && !passwordError){
-            await signInWithEmailPass()
+            await signupWithEmailPass()
         }
     };
 
-    const signInWithEmailPass = async() =>{
+    const signupWithEmailPass = async() =>{
         setAuthResponse('WAIT')
         const auth = getAuth();
-        signInWithEmailAndPassword(auth,email.trim(),password.trim())
-            .then((res)=>{
-                console.log(res)
+        createUserWithEmailAndPassword(auth,email.trim(),password.trim())
+            .then((userCredential)=>{
+                createUserInFirestore(userCredential.user);
                 setAuthResponse('')
-                navigate('/home',{replace: true})
             })
-            .catch((err)=>{
-                console.log("Wrong Email or Password!")
-                setAuthResponse('FAILED')
-                console.log(err)
+            .catch((error)=>{
+                if(error.code === "auth/email-already-in-use"){
+                    setAuthResponse("EXISTS")
+                }
+                else{
+                    setAuthResponse('FAILED')
+                }
+                
             })
     }
 
-    const signInWithGoogle = async() =>{
+    const signupWithGoogle = async() =>{
         const provider = new GoogleAuthProvider();
         const auth = getAuth();
         signInWithRedirect(auth, provider);
     }
 
+    const createUserInFirestore = async(user) =>{
+        // check if the user already exists then don't add. Give an error message
+        const {email, uid, emailVerified} = user
+        await setDoc(doc(db,"users",uid),{
+            email,
+            emailVerified
+        })
+        
+    }
+
+
 
     return ( pageLoading===true ? <Spinner/> :
         <div className="login-card">
             <img src='./gen.png' className='img-fluid margin-10 d-block mt-3' width={'100px'} height={'100px'} style={{margin:'auto'}} alt=''/>
-            <h2 className='text-align-center mt-3'>Login</h2>
+            <h2 className='text-align-center mt-3'>Signup</h2>
 
             {authResponse === "FAILED" ?
-                <Alert color='danger'>Wrong Email or Password! Try again</Alert>
+                <Alert color='danger'>Unable to Signup! Try again</Alert>
+                :null
+            }
+
+            {authResponse === "EXISTS" ?
+                <Alert color='danger'>You are already Signed up! Please Login.</Alert>
                 :null
             }
 
@@ -133,7 +148,7 @@ const LoginCard = () =>{
                     {authResponse === "WAIT"?
                         <Button type="submit" color="primary" className='signin-btn' disabled={true}><Spinner/></Button>
                         :
-                        <Button type="submit" color="primary" className='signin-btn'>Sign In</Button>
+                        <Button type="submit" color="primary" className='signin-btn'>Sign Up</Button>
                     }
                     
                 </div>
@@ -141,10 +156,10 @@ const LoginCard = () =>{
             </Form>
             <div className="d-flex justify-content-center"><hr style={{width: '25%',marginRight: '5px'}}/>{"or continue with"}  <hr style={{width: '25%', marginLeft: '5px'}}/></div>
             <div className="d-flex justify-content-center">
-                <Button onClick={signInWithGoogle} className='btn-google-signin'><img src='./google-icon.png' width={17} height={17} alt='google'/> Google</Button>
+                <Button onClick={signupWithGoogle} className='btn-google-signin'><img src='./google-icon.png' width={17} height={17} alt='google'/> Google</Button>
             </div>
         </div>
     )
 }
 
-export default LoginCard
+export default SignupCard
