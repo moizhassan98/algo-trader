@@ -7,9 +7,12 @@ import {getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithR
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 import { firebase, db } from '../../config/firebase';
+import { setAuthToken } from '../../redux/authSlice';
+import { useDispatch } from 'react-redux';
 
 const SignupCard = () =>{
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,7 +33,7 @@ const SignupCard = () =>{
                 const user = result.user;
                 await createUserInFirestore(user)
                 console.log("SIGNED IN USER: ",user)
-                await saveTokenToSessionStorage()
+                await saveToken()
                 navigate('/dashboard',{replace: true})
             }).catch((error) => {
                 setPageLoading(false)
@@ -73,7 +76,7 @@ const SignupCard = () =>{
             .then(async (userCredential)=>{
                 await createUserInFirestore(userCredential.user);
                 setAuthResponse('')
-                await saveTokenToSessionStorage()
+                await saveToken()
                 navigate('/dashboard',{replace: true})
             })
             .catch((error)=>{
@@ -103,10 +106,10 @@ const SignupCard = () =>{
         
     }
 
-    const saveTokenToSessionStorage = async() =>{
+    const saveToken = async() =>{
         const auth = getAuth();
         var authToken = await auth.currentUser.getIdToken(true);
-        sessionStorage.setItem('authToken',authToken)
+        dispatch(setAuthToken(authToken))
     }
 
     return ( pageLoading===true ? <Spinner/> :

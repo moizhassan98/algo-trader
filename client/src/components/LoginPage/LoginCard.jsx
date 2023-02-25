@@ -8,11 +8,14 @@ import {getAuth,signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedire
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 import { firebase, db } from '../../config/firebase';
+import { useDispatch } from 'react-redux';
+import { setAuthToken } from '../../redux/authSlice';
 
 
 const LoginCard = () =>{
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,7 +36,7 @@ const LoginCard = () =>{
                 const user = result.user;
                 await createUserInFirestore(user)
                 console.log("SIGNED IN USER: ",user)
-                await saveTokenToSessionStorage()
+                await saveToken()
                 navigate('/dashboard',{replace: true})
 
                 //TODO: If new user new create a users doc in db.
@@ -83,7 +86,7 @@ const LoginCard = () =>{
             .then(async(res)=>{
                 console.log(res)
                 setAuthResponse('')
-                await saveTokenToSessionStorage()
+                await saveToken()
                 navigate('/dashboard',{replace: true})
             })
             .catch((err)=>{
@@ -109,10 +112,11 @@ const LoginCard = () =>{
         
     }
 
-    const saveTokenToSessionStorage = async() =>{
+    const saveToken = async() =>{
         const auth = getAuth();
         var authToken = await auth.currentUser.getIdToken(true);
-        sessionStorage.setItem('authToken',authToken)
+        // sessionStorage.setItem('authToken',authToken)
+        dispatch(setAuthToken(authToken))
     }
 
     return ( pageLoading===true ? <Spinner/> :

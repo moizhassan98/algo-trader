@@ -8,6 +8,7 @@ import Home from '../pages/Home'
 import LoginPage from '../pages/LoginPage'
 import SignupPage from '../pages/SignupPage';
 import Dashboard from '../pages/Dashboard';
+import Counter from '../components/Counter/Counter';
 
 
 function App(){
@@ -18,6 +19,7 @@ function App(){
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/signup' element={<SignupPage />} />
                 <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/count' element={<Counter/>} />
             </Routes>
         </Router>
     )

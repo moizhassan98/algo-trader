@@ -23,3 +23,25 @@ body{
     /* height: 100%; */
     height: 100vh;
 }
+
+.h-center{/* horizontal center */
+    display: flex;
+    justify-content: center;
+}
+
+.v-center{
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.hv-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.grow{
+    flex-grow: 1;
+}
