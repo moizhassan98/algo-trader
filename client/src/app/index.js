@@ -4,11 +4,11 @@ import { firebase } from '../config/firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/App.css'
 
-import Home from '../pages/Home'
+import Home from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import SignupPage from '../pages/SignupPage';
-import Dashboard from '../pages/Dashboard';
-import Counter from '../components/Counter/Counter';
+import Dashboard from '../pages/DashboardPage';
+import CreateBrokerPage from '../pages/CreateBrokerPage';
 
 
 function App(){
@@ -19,7 +19,7 @@ function App(){
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/signup' element={<SignupPage />} />
                 <Route path='/dashboard' element={<Dashboard />} />
-                <Route path='/count' element={<Counter/>} />
+                <Route path='/createbroker' element={<CreateBrokerPage/>} />
             </Routes>
         </Router>
     )

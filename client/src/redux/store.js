@@ -3,16 +3,16 @@ import throttle from 'lodash/throttle';
 import { saveState, loadState } from './localStorage';
 import { saveSession, loadSession } from './sessionStorage';
 
-import counterReducer from '../components/Counter/counterSlice'
 import authReducer from './authSlice'
+import createBrokerReducer from './createBrokerSlice'
 
 const persistedState = loadState()
 const sessionState = loadSession()
 
 const store =  configureStore({
   reducer: {
-    counter: counterReducer,
-    auth: authReducer
+    auth: authReducer,
+    createBroker: createBrokerReducer
   },
   preloadedState: {
     ...persistedState,

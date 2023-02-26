@@ -5,7 +5,7 @@ import {
 } from 'reactstrap'
 
 
-const Home = () =>{
+const HomePage = () =>{
     return (
         <Container>
             <Row>
@@ -17,4 +17,4 @@ const Home = () =>{
     )
 }
 
-export default Home
+export default HomePage
