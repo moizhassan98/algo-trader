@@ -5,7 +5,8 @@ function checkAuth(req,res,next){
     admin
         .auth()
         .verifyIdToken(req.headers.authtoken)
-        .then(() => {
+        .then((decodedToken) => {
+            res.locals.uid = decodedToken.uid
             next()
         })
         .catch(() => {

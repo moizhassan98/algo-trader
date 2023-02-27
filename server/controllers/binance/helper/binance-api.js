@@ -2,8 +2,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const binance = async(url, method , apiKey, apiSecret, options) =>{
-
-    var baseUrl = 'https://testnet.binancefuture.com'
+    var baseUrl = 'https://api.binance.com'
+    // var baseUrl = 'https://testnet.binancefuture.com'
     // var baseUrl = 'https://testnet.binance.vision'
 
     const timestamp = Date.now();

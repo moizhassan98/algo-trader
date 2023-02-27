@@ -5,6 +5,7 @@ const cors = require('cors')
 const firebase = require('./firebase')
 const db = require('./db')
 const binanceRouter = require('./routes/binance-router')
+const frontendRouter = require('./routes/frontend-router')
 const checkAuth = require('./controllers/frontend/check-auth')
 
 
@@ -29,5 +30,6 @@ app.get('/api/v1/getauth',(req,res)=>{
 })
 
 app.use('/api', binanceRouter)
+app.use('/api/v1', frontendRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))

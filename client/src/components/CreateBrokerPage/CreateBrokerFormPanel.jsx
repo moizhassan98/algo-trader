@@ -6,9 +6,11 @@ import {
     setApiKey, setApiSecret,clear,setBroker, setInputPanelComplete,
 } from '../../redux/createBrokerSlice'
 import { useDispatch, useSelector } from "react-redux"
+import api from "../../apis"
 
 const CreateBrokerFormPanel = () =>{
     const dispatch = useDispatch()
+    const {authToken} = useSelector((state)=> state.auth)
     //#region  Dropdown
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownToggle = () => setDropdownOpen((prevState) => !prevState);
@@ -55,7 +57,7 @@ const CreateBrokerFormPanel = () =>{
 
     //#endregion
 
-    const submit = (e) =>{
+    const submit = async(e) =>{
         e.preventDefault()
         validateApiKey();
         validateApiSecret();
@@ -65,7 +67,12 @@ const CreateBrokerFormPanel = () =>{
             dispatch(setApiKey(apiKey))
             dispatch(setApiSecret(apiSecret))
             dispatch(setInputPanelComplete())
-            /// TODO: send this info to server to save in DB.
+            await api.saveApi({
+                broker,
+                apiKey,
+                apiSecret
+            },authToken)
+            /// TODO: Error handling!
         }
     }
 
