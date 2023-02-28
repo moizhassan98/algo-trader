@@ -34,7 +34,7 @@ const apiPermission = async (req,res) =>{
 const saveApiInfo = async(req,res) =>{
     const {broker, apiKey, apiSecret} = req.body
     const {uid} = res.locals
-
+    //TODO: Input Validation.
     try{
         await db.collection('users').doc(uid).collection('brokers').doc(broker).set({
             apiKey,

@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router , Route, Routes} from 'react-router-dom'
 import { firebase } from '../config/firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'devextreme/dist/css/dx.light.css';
 import '../styles/App.css'
 
 import Home from '../pages/HomePage'
@@ -9,6 +10,7 @@ import LoginPage from '../pages/LoginPage'
 import SignupPage from '../pages/SignupPage';
 import Dashboard from '../pages/DashboardPage';
 import CreateBrokerPage from '../pages/CreateBrokerPage';
+import CreateBotPage from '../pages/CreateBotPage';
 
 
 function App(){
@@ -20,6 +22,7 @@ function App(){
                 <Route path='/signup' element={<SignupPage />} />
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/createbroker' element={<CreateBrokerPage/>} />
+                <Route path='/createbot' element={<CreateBotPage />} />
             </Routes>
         </Router>
     )

@@ -5,6 +5,7 @@ import { saveSession, loadSession } from './sessionStorage';
 
 import authReducer from './authSlice'
 import createBrokerReducer from './createBrokerSlice'
+import createBotReducer from './createBotSlice'
 
 const persistedState = loadState()
 const sessionState = loadSession()
@@ -12,7 +13,8 @@ const sessionState = loadSession()
 const store =  configureStore({
   reducer: {
     auth: authReducer,
-    createBroker: createBrokerReducer
+    createBroker: createBrokerReducer,
+    createBot: createBotReducer
   },
   preloadedState: {
     ...persistedState,

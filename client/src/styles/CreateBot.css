@@ -1,0 +1,13 @@
+.panel-middle{
+    margin: auto;
+}
+
+.panel-1per-row{
+    display: flex;
+    flex-direction: column;
+}
+
+.symbol-list-item{
+    width: 100%;
+    text-align: center;
+}

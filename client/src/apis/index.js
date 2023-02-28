@@ -13,8 +13,13 @@ const axiosObj = axios.create({
 const apiPermission = (payload, authToken) => axiosObj.post(`/apipermission`, payload, {headers: {"AuthToken": authToken}})
 const saveApi = (payload, authToken) => axiosObj.post(`/saveapi`, payload, {headers: {"AuthToken": authToken}})
 
+const getBrokersForUser = (authToken) => axiosObj.get(`/userbrokers`, {headers: {"AuthToken": authToken}})
+
 const api = {
     apiPermission,
     saveApi,
+
+    getBrokersForUser,
+
 }
 export default api
