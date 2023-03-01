@@ -10,12 +10,12 @@ import '../styles/CreateBot.css'
 
 const CreateBotPage = () =>{
     useAuth();
-    const {brokerSelectionDone, symbolSelectionDone, createBotCompleted} = useSelector((state)=> state.createBot)
+    const {brokerSelectionDone, symbolSelectionDone, createBotCompleted, createdBotId} = useSelector((state)=> state.createBot)
 
     return(
         <Container fluid={true}>
             {createBotCompleted ?
-                <OutputPanel />
+                <OutputPanel botId={createdBotId}/>
                 :
                 <div>
                     <ChooseBrokerPanel />

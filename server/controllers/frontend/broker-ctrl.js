@@ -28,7 +28,6 @@ const getBrokersForUser = async(req,res) =>{
 
 }
 
-
-module.exports = {
-    getBrokersForUser,
-}
+ module.exports = {
+    getBrokersForUser
+ }

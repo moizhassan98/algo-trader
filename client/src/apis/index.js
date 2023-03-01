@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { SERVER_API_URL } from '../config/urls'
 
 
@@ -15,11 +13,22 @@ const saveApi = (payload, authToken) => axiosObj.post(`/saveapi`, payload, {head
 
 const getBrokersForUser = (authToken) => axiosObj.get(`/userbrokers`, {headers: {"AuthToken": authToken}})
 
+const createBot = (payload, authToken) => axiosObj.post(`/createbot`, payload,  {headers: {"AuthToken": authToken}})
+const getBotById = (botId,authToken) => axiosObj.get(`/bot/${botId}`,{headers: {"AuthToken": authToken}})
+
+const createUser = (payload, authToken) => axiosObj.post(`/createuser`, payload,  {headers: {"AuthToken": authToken}})
+const userExists = (authToken) => axiosObj.get(`/userexists`, {headers: {"AuthToken": authToken}})
+
 const api = {
+    createUser,
+    userExists,
+
     apiPermission,
     saveApi,
 
     getBrokersForUser,
 
+    getBotById,
+    createBot,
 }
 export default api

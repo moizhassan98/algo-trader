@@ -9,7 +9,7 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 import { firebase, db } from '../../config/firebase';
 import { useDispatch } from 'react-redux';
-import { setAuthToken } from '../../redux/authSlice';
+import { setAuthToken, createUser } from '../../redux/authSlice';
 
 
 const LoginCard = () =>{
@@ -34,9 +34,8 @@ const LoginCard = () =>{
 
                 // The signed-in user info.
                 const user = result.user;
-                await createUserInFirestore(user)
-                console.log("SIGNED IN USER: ",user)
                 await saveToken()
+                await createUserInFirestore(user)
                 navigate('/dashboard',{replace: true})
 
                 //TODO: If new user new create a users doc in db.
@@ -102,14 +101,10 @@ const LoginCard = () =>{
         signInWithRedirect(auth, provider);
     }
 
+    
     const createUserInFirestore = async(user) =>{
-        // check if the user already exists then don't add. Give an error message
         const {email, uid, emailVerified} = user
-        await setDoc(doc(db,"users",uid),{
-            email,
-            emailVerified
-        })
-        
+        dispatch(createUser({email,uid,emailVerified}))
     }
 
     const saveToken = async() =>{

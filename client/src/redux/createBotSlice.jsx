@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Joi from "joi";
+import api from "../apis";
 
 const createBotSlice = createSlice({
     name: "createBot",
@@ -16,7 +17,9 @@ const createBotSlice = createSlice({
         fixedDollarAmount: 0,
         createBotError: null, // optional
         createBotCompleted: false, //optional
-        createBotLoading: false
+        createBotLoading: false,
+        createdBotId: '',
+        botName: '',
     },
     reducers: {
         setBroker: (state,action)=>{
@@ -47,7 +50,7 @@ const createBotSlice = createSlice({
             state.percentageSelected = !state.percentageSelected
         },
         setPercentageAmount: (state, action)=>{
-            state.percentageAmount = action.paylaod
+            state.percentageAmount = action.payload
         },
         setFixedDollarAmount: (state, action) =>{
             state.fixedDollarAmount = action.payload
@@ -60,6 +63,12 @@ const createBotSlice = createSlice({
         },
         setCreateBotLoading: (state,action)=>{
             state.createBotLoading = action.payload
+        },
+        setBotName: (state, action) =>{
+            state.botName = action.payload
+        },
+        setCreatedBotId: (state,action) =>{
+            state.createdBotId = action.payload
         }
     }
 })
@@ -77,7 +86,9 @@ export const {
     setPercentageAmount,
     setCreateBotError,
     setCreateBotCompleted,
-    setCreateBotLoading
+    setCreateBotLoading,
+    setBotName,
+    setCreatedBotId
 } = createBotSlice.actions
 export default createBotSlice.reducer
 
@@ -98,7 +109,9 @@ export const createBotValidation = () => async(dispatch, getState) =>{
         symbolSelectionDone: Joi.boolean(),
         createBotError: Joi.optional(),
         createBotCompleted: Joi.boolean(), 
-        createBotLoading: Joi.optional()
+        createBotLoading: Joi.optional(),
+        createdBotId: Joi.optional(),
+        botName: Joi.string().required(),
     })
     
 
@@ -116,10 +129,20 @@ export const createBot = () => async(dispatch, getState) =>{
     dispatch(createBotValidation());
     const valid = (getState().createBot.createBotError) ? false : true
     if(valid){
-        //TODO: Save to DB
-        await new Promise((resolve)=> setTimeout(()=>resolve(), 5000))
-        dispatch(setCreateBotLoading(false))
-        dispatch(setCreateBotCompleted(true))
+        const state = getState()
+        const authToken = state.auth.authToken
+        const botState = state.createBot
+        await api
+            .createBot(botState,authToken)
+            .then((response)=>{
+                dispatch(setCreatedBotId(response.data.id))
+                dispatch(setCreateBotCompleted(true))
+            })
+            .catch((err)=>{
+                console.log(err)
+                dispatch(setCreateBotError(err))
+            })
     }
+    dispatch(setCreateBotLoading(false))
     
 }

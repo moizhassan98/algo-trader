@@ -24,7 +24,7 @@ const ChooseTradingTypePanel = () =>{
                         </div>:null}
 
                         {spotSelected === false ?<div className="full-width h-center">
-                            <h6  style={{lineHeight: '50px', marginRight: '20px'}}>Choose Margin Multiplier (1x - 125x)</h6>
+                            <h6  style={{lineHeight: '50px', marginRight: '20px'}}>Choose Leverage Multiplier (1x - 125x)</h6>
                             
                         </div>:null}
 
