@@ -12,6 +12,8 @@ import Dashboard from '../pages/DashboardPage';
 import CreateBrokerPage from '../pages/CreateBrokerPage';
 import CreateBotPage from '../pages/CreateBotPage';
 import TradevisorNavbar from '../components/TradevisorNavbar';
+import BotsPage from '../pages/BotsPage';
+import BrokersPage from '../pages/BrokersPage';
 
 
 function App(){
@@ -25,6 +27,8 @@ function App(){
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/createbroker' element={<CreateBrokerPage/>} />
                 <Route path='/createbot' element={<CreateBotPage />} />
+                <Route path='/bots' element={<BotsPage />} />
+                <Route path='/brokers' element={<BrokersPage />} />
             </Routes>
         </Router>
     )

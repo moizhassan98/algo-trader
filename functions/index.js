@@ -34,7 +34,6 @@ exports.binanceFuturesSymbols = functions.region('europe-west1').https.onRequest
                         baseAssetPrecision: symbol.baseAssetPrecision,
                         quotePrecision: symbol.quotePrecision, 
                     }
-
                     db
                         .collection("binanceFuturesSymbols")
                         .doc(symbol.symbol)

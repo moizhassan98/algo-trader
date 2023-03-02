@@ -38,10 +38,10 @@ const Sidebar = (props) =>{
             <div onClick={()=>navigate('/dashboard')} id='dashboard' className="sidebar-menu-items">
                 {dashboardLogo} <span className='sidebar-menuitem-text'>Dashboard</span>
             </div>
-            <div onClick={()=>navigate('/createbroker')} id='brokers' className="sidebar-menu-items">
+            <div onClick={()=>navigate('/brokers')} id='brokers' className="sidebar-menu-items">
                 {brokerLogo} <span className='sidebar-menuitem-text'>Brokers</span>
             </div>
-            <div onClick={()=>navigate('/createbot')} id='bots' className='sidebar-menu-items'>
+            <div onClick={()=>navigate('/bots')} id='bots' className='sidebar-menu-items'>
                 {botLogo}
                 <span className='sidebar-menuitem-text'>Bots</span>
             </div>

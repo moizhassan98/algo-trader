@@ -15,6 +15,7 @@ const getBrokersForUser = (authToken) => axiosObj.get(`/userbrokers`, {headers: 
 
 const createBot = (payload, authToken) => axiosObj.post(`/createbot`, payload,  {headers: {"AuthToken": authToken}})
 const getBotById = (botId,authToken) => axiosObj.get(`/bot/${botId}`,{headers: {"AuthToken": authToken}})
+const getAllBots = (authToken) => axiosObj.get(`/bots`, {headers:{ "AuthToken": authToken}})
 
 const createUser = (payload, authToken) => axiosObj.post(`/createuser`, payload,  {headers: {"AuthToken": authToken}})
 const userExists = (authToken) => axiosObj.get(`/userexists`, {headers: {"AuthToken": authToken}})
@@ -29,6 +30,7 @@ const api = {
     getBrokersForUser,
 
     getBotById,
+    getAllBots,
     createBot,
 }
 export default api

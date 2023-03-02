@@ -1,0 +1,32 @@
+.bot-card{
+    border-radius: 5px;
+    background-color: whitesmoke;
+    color: black;
+    border: 2px black solid;
+    padding: 10px;
+    margin: 15px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.add-bot-card{
+    border-radius: 5px;
+    background-color: whitesmoke;
+    color: black;
+    border: 2px black dotted;
+    padding: 10px;
+    margin: 15px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.bc-name{
+    font-size: '25px';
+    text-align: center;
+    font-weight: bold;
+}
+
+.bc-subtext{
+    font-size: '14px';
+    text-align: center;
+}

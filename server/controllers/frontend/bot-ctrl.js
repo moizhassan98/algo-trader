@@ -93,8 +93,31 @@ const getBotById = async(req,res) =>{
     }
 }
 
+const getAllBots = async(req,res) =>{
+    const uid = res.locals.uid
+
+    var colRef =  db.collection('users').doc(uid).collection('bots')
+
+    var count =  colRef.count()
+
+    if(count === 0){
+        return res.status(404).json({
+            success: true,
+            message: "No Bots Created!"
+        })
+    }
+    else{
+        const snapshot = await colRef.get()
+        return res.status(200).json({
+            success: true,
+            bots: snapshot.docs.map(doc => doc.data())
+        })
+    }
+}
+
 
 module.exports = {
     createBot,
     getBotById,
+    getAllBots,
 }

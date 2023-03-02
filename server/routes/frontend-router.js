@@ -16,5 +16,6 @@ router.get('/userbrokers', brokerCtrl.getBrokersForUser)
 
 router.post('/createbot',botCtrl.createBot)
 router.get('/bot/:botId', botCtrl.getBotById)
+router.get('/bots',botCtrl.getAllBots)
 
 module.exports = router
