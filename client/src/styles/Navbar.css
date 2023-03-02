@@ -1,0 +1,18 @@
+
+.my-navbar{
+    /* background-color: #1a2846; */
+    background-color: white;
+}
+
+.navbar-btn{
+    padding: 5px;
+    margin: 10px;
+    margin-right: 25px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}

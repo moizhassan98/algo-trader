@@ -11,11 +11,13 @@ import SignupPage from '../pages/SignupPage';
 import Dashboard from '../pages/DashboardPage';
 import CreateBrokerPage from '../pages/CreateBrokerPage';
 import CreateBotPage from '../pages/CreateBotPage';
+import TradevisorNavbar from '../components/TradevisorNavbar';
 
 
 function App(){
     return (
         <Router>
+            <TradevisorNavbar />
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/login' element={<LoginPage />} />

@@ -2,9 +2,13 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/Sidebar.css'
 import { botLogo, signoutLogo, dashboardLogo, brokerLogo, accountLogo } from '../assets/svgs'
+import { useDispatch } from 'react-redux'
+import {  signOut,getAuth } from "firebase/auth";
+import { setAuthToken } from '../redux/authSlice'
 
 const Sidebar = (props) =>{
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(()=>{
         try{
@@ -13,6 +17,18 @@ const Sidebar = (props) =>{
 
         }
     },[])
+
+    const signOutUser = () =>{
+        const auth = getAuth()
+        signOut(auth).then((response)=>{
+            dispatch(setAuthToken(''))
+            navigate('/login',{replace:true})
+        })
+        .catch((err)=>{
+            dispatch(setAuthToken(''))
+            navigate('/login',{replace:true})
+        })
+    }
 
     return (
         <div className="sidebar-container">
@@ -33,7 +49,7 @@ const Sidebar = (props) =>{
                 {accountLogo} <span className='sidebar-menuitem-text'>Account</span>
             </div>
 
-            <div className="signout-btn">
+            <div className="signout-btn" onClick={signOutUser}>
                 {signoutLogo}Signout
             </div>
 
