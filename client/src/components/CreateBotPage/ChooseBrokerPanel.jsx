@@ -5,8 +5,8 @@ import api from "../../apis"
 import Panel from "../BasicUIElements/Panel"
 import { brokerSelectionCompleted, setBotName, setBroker, setSymbol, symbolSelectionCompleted } from "../../redux/createBotSlice"
 import List from 'devextreme-react/list'
-import symbolsSupported from "../../config/symbolsSupported"
 import { useNavigate } from "react-router-dom"
+import axios from 'axios'
 
 
 const ChooseBrokerPanel = () =>{
@@ -17,6 +17,7 @@ const ChooseBrokerPanel = () =>{
     const [pageLoading, setPageLoading] = useState(true)
     const [brokersList, setBrokersList] = useState([])
     const [showCreateBroker, setShowCreateBroker] = useState(false)
+    const [symbolsSupported, setSymbolsSupported] = useState([])
 
     useEffect(()=>{
         api
@@ -34,7 +35,10 @@ const ChooseBrokerPanel = () =>{
                 setPageLoading(false)
                 //TODO: Error Handling.
             })
-
+        axios.get('https://api.binance.com/api/v3/exchangeInfo').then((response)=>{
+            var symbolsObject = response.data.symbols.map((symbol)=> {return ({name: symbol.symbol})})
+            setSymbolsSupported(symbolsObject)
+        })
     },[])
 
 
