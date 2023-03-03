@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Panel from "../BasicUIElements/Panel"
 import {Container, Row, Col, Spinner} from 'reactstrap'
 import api from "../../apis";
+import { checkMark, crossMark } from "../../assets/svgs";
 
 const OutputCreateBrokerPanel = () =>{
 
@@ -43,12 +44,12 @@ const OutputCreateBrokerPanel = () =>{
         <Container>
             <Row>
                 <Col xs="12" sm="10" md="6" lg="6">
-                    <Panel>
+                    <Panel className="d-flex" style={{flexDirection: 'column'}}>
                         <Row>
-                            {tradingEnabled.spot ? <div>Spot Trading Enabled</div> : <div>X Spot trading <strong>NOT Enabled</strong></div>}
+                            {tradingEnabled.spot ? <div>{checkMark}Spot Trading Enabled</div> : <div>{crossMark} Spot trading <strong>NOT Enabled</strong></div>}
                         </Row>
                         <Row>
-                            {tradingEnabled.futures ? <div>Futures Trading Enabled</div>: <div>X Futures trading <strong>NOT Enabled</strong></div>}
+                            {tradingEnabled.futures ? <div>{checkMark} Futures Trading Enabled</div>: <div>{crossMark} Futures trading <strong>NOT Enabled</strong></div>}
                         </Row>
                         
                     </Panel>

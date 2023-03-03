@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Navbar, NavbarBrand, NavLink } from "reactstrap"
+import { Nav, Navbar, NavbarBrand, NavItem, NavLink } from "reactstrap"
 import { tradevisorLogo2White, tradeVisorLogoBlack, tradevisorLogoWhite, tradingViewLogo2Black } from "../assets/svgs"
 import '../styles/Navbar.css'
 
@@ -23,22 +23,29 @@ const TradevisorNavbar = () =>{
         else{
             setSignupPage(false)
         }
+        if(path === '/'){
+            setLoginPage(true)
+            setSignupPage(true)
+        }
     },[])
 
     return(
-        <Navbar className={'my-navbar'}>
+        <Navbar className={'my-navbar'} expand="lg">
             <NavbarBrand style={{width: '13%'}} sm='6'>
                 {tradevisorLogo2White} 
             </NavbarBrand>
-            {loginPage &&
-            <div className="navbar-btn" onClick={()=>window.location = '/signup'}>
-                Signup
-            </div>}
-
-            {signupPage &&
-            <div className="navbar-btn" onClick={()=>window.location = '/login'}>
-                Signin
-            </div>}
+            <Nav className="ml-auto" navbar>
+                {loginPage &&<NavItem>
+                    <div className="navbar-btn" onClick={()=>window.location = '/signup'}>
+                    Signup
+                    </div>
+                </NavItem>}
+                {signupPage &&<NavItem>
+                    <div className="navbar-btn" onClick={()=>window.location = '/login'}>
+                    Signin
+                    </div>
+                </NavItem>}
+            </Nav>
         </Navbar>
     )
 }

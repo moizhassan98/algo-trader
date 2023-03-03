@@ -12,12 +12,13 @@ const {
 
 const recieveTest = async(req,res) =>{
     const body = req.body
-    // await db.collection('TradingViewReqs').doc().create(body)
-    const tradeSide = "BUY"
-    const encodedText = "MmdrdUtVamlVdG92ODJwRXZibjNffF9lZWI1MWY0ZjAwYmViYzFhNzEzNzg5Y2ZlMzJlMWVjODo0YzRlMjc3YmY5YjQ2MDIzM2JjOTYzYjcyMjgzNmY5M2Y0M2UyNTNjNWE4OWYxZWY1ZDdhODkyNTUxNjg3MGMwMDhiYjM4YmU4NTYzZDAyZTM3N2UwMQ=="
+    const {tradeSide, token} = body
+    await db.collection('TradingViewReqs').doc().create(body)
+    // const tradeSide = "BUY"
+    // const encodedText = "MmdrdUtVamlVdG92ODJwRXZibjNffF9lZWI1MWY0ZjAwYmViYzFhNzEzNzg5Y2ZlMzJlMWVjODo0YzRlMjc3YmY5YjQ2MDIzM2JjOTYzYjcyMjgzNmY5M2Y0M2UyNTNjNWE4OWYxZWY1ZDdhODkyNTUxNjg3MGMwMDhiYjM4YmU4NTYzZDAyZTM3N2UwMQ=="
     
     // decodes and decrypts the request from the TradingView Request to authenticate the request.
-    const result = await checkTradingViewAuth(encodedText);
+    const result = await checkTradingViewAuth(token);
     
 
     if(result.success !== true){

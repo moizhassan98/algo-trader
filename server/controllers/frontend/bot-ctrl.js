@@ -110,7 +110,12 @@ const getAllBots = async(req,res) =>{
         const snapshot = await colRef.get()
         return res.status(200).json({
             success: true,
-            bots: snapshot.docs.map(doc => doc.data())
+            bots: snapshot.docs.map(doc => {
+                let returnObject = doc.data()
+                returnObject.botId = doc.id
+                return returnObject
+            })
+            // bots: snapshot.docs.map(doc=> doc.data())
         })
     }
 }

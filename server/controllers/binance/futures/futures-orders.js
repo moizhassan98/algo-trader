@@ -8,9 +8,9 @@ const {
 } = require('./utils/validators')
 
 
-const createFuturesOrder = async(options) =>{
-    const apiKey = process.env.FuturesTestnetApiKey
-    const apiSecret = process.env.FuturesTestnetApiSecret
+const createFuturesOrder = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.FuturesTestnetApiKey
+    // const apiSecret = process.env.FuturesTestnetApiSecret
 
     const {error} = createFuturesOrderSchema.validate(options);
 

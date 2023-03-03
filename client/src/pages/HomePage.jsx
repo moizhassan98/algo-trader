@@ -3,17 +3,12 @@ import {
     Row,
     Container
 } from 'reactstrap'
+import WorkInProgress from '../components/BasicUIElements/WorkInProgress'
 
 
 const HomePage = () =>{
     return (
-        <Container>
-            <Row>
-                <Col>
-                H</Col>
-            </Row>
-            Hello
-        </Container>
+        <WorkInProgress />
     )
 }
 

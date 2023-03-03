@@ -15,7 +15,7 @@ const {
  * 
  * @returns {Object} returns the result of api request to binance
  */
-const fixedDollarOrder = async(options) =>{
+const fixedDollarOrder = async(apiKey, apiSecret, options) =>{
 
     const {error} = fixedDollarOrderSchema.validate(options);
 
@@ -40,7 +40,7 @@ const fixedDollarOrder = async(options) =>{
             var orderQuantityPrecision = await(await (db.collection('binanceFuturesSymbols').doc(options.symbol).get())).data().quantityPrecision
             orderQuantity = roundToDecimalPlaces(orderQuantity,orderQuantityPrecision);
 
-            var orderResponse = await createFuturesOrder({
+            var orderResponse = await createFuturesOrder(apiKey, apiSecret,{
                 symbol: options.symbol,
                 side: options.orderSide,
                 type: "MARKET",

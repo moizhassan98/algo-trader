@@ -80,8 +80,8 @@ const getAllFuturesOrders = async(req,res) =>{
 }
 
 const getFuturesAccountBalance = async (req,res) =>{
-
-    var binanceQuery = await account.getFuturesAccountBalance();
+    const {apiKey, apiSecret} = req.body
+    var binanceQuery = await account.getFuturesAccountBalance(apiKey,apiSecret);
 
     responseHandler(binanceQuery, res);
 }

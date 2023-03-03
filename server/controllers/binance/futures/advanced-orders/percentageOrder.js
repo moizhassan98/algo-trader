@@ -16,7 +16,7 @@ const account = require('../futures-account')
  * 
  * @returns {Object} returns the result of api request to binance
  */
-const percentageOrder = async(options) =>{
+const percentageOrder = async(apiKey, apiSecret, options) =>{
 
     const {error} = percentageOrderSchema.validate(options);
 
@@ -35,7 +35,7 @@ const percentageOrder = async(options) =>{
             }
             else{
                 var marginAsset = dbAssetData.marginAsset
-                var marginAssetAccountBalance = await account.getAccountBalanceForAsset(marginAsset)
+                var marginAssetAccountBalance = await account.getAccountBalanceForAsset(apiKey, apiSecret, marginAsset)
                 if(marginAssetAccountBalance === -1){
                     return errorHandler(500,'Unable to get the asset balance from account!')
                 }
@@ -45,7 +45,7 @@ const percentageOrder = async(options) =>{
                     var orderQuantityPrecision = dbAssetData.quantityPrecision
                     orderQuantity = roundToDecimalPlaces(orderQuantity,orderQuantityPrecision);
 
-                    var orderResponse = await createFuturesOrder({
+                    var orderResponse = await createFuturesOrder(apiKey, apiSecret,{
                         symbol: options.symbol,
                         side: options.orderSide,
                         type: "MARKET",

@@ -10,16 +10,16 @@ const tradeExecution = async(tradeSide,userId,botData,apiKeys) =>{
     
     if(botData.brokerId === "BINANCE"){
         if(botData.accountType === "FUTURES"){
-            await binanceFuturesAdvOrders.closeAllOrders({
+            await binanceFuturesAdvOrders.closeAllOrders(apiKeys.apiKey, apiKeys.apiSecret,{
                 symbol: botData.symbol
             })
 
-            await binanceFuturesSettings.changeFuturesMarginType({
+            await binanceFuturesSettings.changeFuturesMarginType(apiKeys.apiKey,apiKeys.apiSecret,{
                 symbol: botData.symbol,
                 marginType:botData.leverageType
             })
 
-            await binanceFuturesSettings.changeFuturesLeverage({
+            await binanceFuturesSettings.changeFuturesLeverage(apiKeys.apiKey, apiKeys.apiSecret,{
                 symbol: botData.symbol,
                 leverage:botData.botLeverage
             })
@@ -48,7 +48,8 @@ module.exports ={
 
 async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
     if(botData.typeOfOrder === "FIXED_PERCENTAGE"){
-        let result = await binanceFuturesAdvOrders.percentageOrder({
+        console.log(`REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${Number(botData.fixedPercentage)*100}%`)
+        let result = await binanceFuturesAdvOrders.percentageOrder(apiKeys.apiKey,apiKeys.apiSecret,{
             symbol: botData.symbol,
             percentage: botData.fixedPercentage,
             orderSide: tradeSide
@@ -58,7 +59,8 @@ async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
 
     }
     if(botData.typeOfOrder === "FIXED_DOLLAR_AMOUNT"){
-        let result = await binanceFuturesAdvOrders.fixedDollarOrder({
+        console.log(`REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${botData.fixedDollarAmount} USD`)
+        let result = await binanceFuturesAdvOrders.fixedDollarOrder(apiKeys.apiKey, apiKeys.apiSecret,{
             symbol: botData.symbol,
             fixedDollarAmount: botData.fixedDollarAmount,
             orderSide: tradeSide
@@ -79,6 +81,7 @@ function errorHandler(status,err){
 
 function responseHandler(binanceQuery){
     if(binanceQuery.status === 200){
+        console.log(`SUCCESS`)
         return ({
             success: true,
             status: 200,
@@ -86,6 +89,7 @@ function responseHandler(binanceQuery){
         })
     }
     else{
+        console.log(`ERROR`)
         return ({
             success: false,
             status: 500,

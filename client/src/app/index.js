@@ -14,6 +14,7 @@ import CreateBotPage from '../pages/CreateBotPage';
 import TradevisorNavbar from '../components/TradevisorNavbar';
 import BotsPage from '../pages/BotsPage';
 import BrokersPage from '../pages/BrokersPage';
+import BotDetailPage from '../pages/BotDetailPage';
 
 
 function App(){
@@ -28,6 +29,7 @@ function App(){
                 <Route path='/createbroker' element={<CreateBrokerPage/>} />
                 <Route path='/createbot' element={<CreateBotPage />} />
                 <Route path='/bots' element={<BotsPage />} />
+                <Route path='/bot/:botId' element={<BotDetailPage />} />
                 <Route path='/brokers' element={<BrokersPage />} />
             </Routes>
         </Router>

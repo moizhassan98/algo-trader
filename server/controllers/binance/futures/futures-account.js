@@ -1,8 +1,8 @@
 const { binance } = require('../helper/binance-api')
 
-const getFuturesAccountBalance = async() =>{
-    const apiKey = process.env.FuturesTestnetApiKey
-    const apiSecret = process.env.FuturesTestnetApiSecret
+const getFuturesAccountBalance = async(apiKey, apiSecret) =>{
+    // const apiKey = process.env.FuturesTestnetApiKey
+    // const apiSecret = process.env.FuturesTestnetApiSecret
 
     // console.log(apiKey,apiSecret);
 
@@ -63,8 +63,8 @@ const getFuturesAccountInformation = async() =>{
  * @param {string} asset Asset name for which you need balance. like 'USDT', 'BTC'
  * @returns {number} balance amount in the account. If errored then returns -1.
  */
-const getAccountBalanceForAsset = async(asset) =>{
-    var query = await getFuturesAccountBalance();
+const getAccountBalanceForAsset = async(apiKey,apiSecret, asset) =>{
+    var query = await getFuturesAccountBalance(apiKey,apiSecret);
 
     if(query.status === 200){
         var assetBalance = -1
@@ -87,9 +87,9 @@ const getAccountBalanceForAsset = async(asset) =>{
  * @param {string} symbol symbol for which you need the position for.
  * @returns {Object} 
  */
-const getPositionForSymbol = async(symbol) =>{
-    const apiKey = process.env.FuturesTestnetApiKey
-    const apiSecret = process.env.FuturesTestnetApiSecret
+const getPositionForSymbol = async(apiKey, apiSecret, symbol) =>{
+    // const apiKey = process.env.FuturesTestnetApiKey
+    // const apiSecret = process.env.FuturesTestnetApiSecret
 
     var result = await binance(
         '/fapi/v2/positionRisk',

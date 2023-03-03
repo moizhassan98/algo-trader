@@ -93,7 +93,7 @@ const ChooseBrokerPanel = () =>{
     return (pageLoading ? <Spinner className="hv-center"/> :
             <Row className="mt-4">
                 <Col xs="12" sm="10" md="6" lg="6">
-                    <Panel>{showCreateBroker ? <Button onClick={()=>navigate('/createBroker',{replace: true})}>Go to Create Broker</Button> :
+                    <Panel>{showCreateBroker ? <Button onClick={()=>window.location = '/createbroker'}>Go to Create Broker</Button> :
                     <div className="full-width">
                         {/* TODO: Input Name  */}
                         <Label for='botname'>Name</Label>

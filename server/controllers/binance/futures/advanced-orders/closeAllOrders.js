@@ -11,14 +11,14 @@ const Joi = require('@hapi/joi');
  * 
  * @returns {Object} returns the result of api request to binance
  */
-const closeAllOrders = async(options) =>{
+const closeAllOrders = async(apiKey, apiSecret, options) =>{
     const {error} = closeAllOrdersSchema.validate(options);
 
     if(error){
         return errorHandler(400,error);
     }
     else{
-        var openPositionQuery = await account.getPositionForSymbol(options.symbol);
+        var openPositionQuery = await account.getPositionForSymbol(apiKey, apiSecret, options.symbol);
         
         if(openPositionQuery.status !== 200){
             return errorHandler(500,openPositionQuery)
@@ -33,7 +33,7 @@ const closeAllOrders = async(options) =>{
             else{
                 var closeOrderSide = openPositionSide === "BUY" ? "SELL" : "BUY"; // if the position in LONG then will place order for SHORT.
                 var closeOrderQuantity = Math.abs(openPositionAmount); // So its always positive
-                var orderResponse = await order.createFuturesOrder({
+                var orderResponse = await order.createFuturesOrder(apiKey, apiSecret,{
                     symbol: options.symbol,
                     side: closeOrderSide,
                     type: "MARKET",

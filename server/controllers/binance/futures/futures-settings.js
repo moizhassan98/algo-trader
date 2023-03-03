@@ -4,9 +4,9 @@ const {
     changeFuturesLeverageSchema,
 } = require('./utils/validators')
 
-const changeFuturesMarginType = async(options) =>{
-    const apiKey = process.env.FuturesTestnetApiKey
-    const apiSecret = process.env.FuturesTestnetApiSecret
+const changeFuturesMarginType = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.FuturesTestnetApiKey
+    // const apiSecret = process.env.FuturesTestnetApiSecret
 
     const {error} = changeFuturesMarginTypeSchema.validate(options);
 
@@ -42,9 +42,9 @@ const changeFuturesMarginType = async(options) =>{
     }
 }
 
-const changeFuturesLeverage = async(options) =>{
-    const apiKey = process.env.FuturesTestnetApiKey
-    const apiSecret = process.env.FuturesTestnetApiSecret
+const changeFuturesLeverage = async(apiKey,apiSecret, options) =>{
+    // const apiKey = process.env.FuturesTestnetApiKey
+    // const apiSecret = process.env.FuturesTestnetApiSecret
 
     const {error} = changeFuturesLeverageSchema.validate(options);
 

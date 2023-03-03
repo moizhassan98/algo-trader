@@ -15,6 +15,8 @@ const OutputPanel = (props) =>{
         outputEncodedString: '',
         webhookUrl: ''
     })
+    const [buyMessage, setBuyMessage] = useState('')
+    const [sellMessage, setSellMessage] = useState('')
 
     useEffect(()=>{
         api.getBotById(props.botId,authToken)
@@ -22,6 +24,20 @@ const OutputPanel = (props) =>{
                 console.log(response.data.botData)
                 var data = response.data.botData
                 setBotData(data);
+                var token = data.outputEncodedString
+
+                var buyObject = {
+                    tradeSide: "BUY",
+                    token: token
+                }
+
+                var sellObject = {
+                    tradeSide: "SELL",
+                    token: token
+                }
+
+                setBuyMessage(JSON.stringify(buyObject))
+                setSellMessage(JSON.stringify(sellObject))
                 setLoading(false)
             })
             .catch((err)=>{
@@ -57,19 +73,35 @@ const OutputPanel = (props) =>{
                         </div>
 
                         <div className="full-width h-center mt-5">
-                            <Label for="bodytext" >Webhook Body</Label>
+                            <Label for="bodytext" >Message for BUY Signal</Label>
                             <Input
                                 id="bodytext"
                                 type="textarea"
                                 disabled={true}
                                 contentEditable={false}
-                                value={botData.outputEncodedString}
+                                value={buyMessage}
                                 readOnly={true}
                                 style={{height: '150px',}}
                                 />
                         </div>
                         <div className="full-width d-flex" style={{justifyContent: 'end'}}>
-                        <Button style={{width: '45px', padding: '5px', marginTop: '-35px', right: '15px'}} color="primary" onClick={()=>copyTextToClipboard(botData.outputEncodedString)}>copy</Button>
+                        <Button style={{width: '45px', padding: '5px', marginTop: '-35px', right: '15px'}} color="primary" onClick={()=>copyTextToClipboard(buyMessage)}>copy</Button>
+                        </div>
+
+                        <div className="full-width h-center mt-5">
+                            <Label for="bodytext" >Message for SELL Signal</Label>
+                            <Input
+                                id="bodytext"
+                                type="textarea"
+                                disabled={true}
+                                contentEditable={false}
+                                value={sellMessage}
+                                readOnly={true}
+                                style={{height: '150px',}}
+                                />
+                        </div>
+                        <div className="full-width d-flex" style={{justifyContent: 'end'}}>
+                        <Button style={{width: '45px', padding: '5px', marginTop: '-35px', right: '15px'}} color="primary" onClick={()=>copyTextToClipboard(sellMessage)}>copy</Button>
                         </div>
                         
                         
