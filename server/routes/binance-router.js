@@ -6,7 +6,7 @@ const Binance_spotCtrl = require('../controllers/binance/spot/spot-ctrl')
 const Binance_futuresCtrl = require('../controllers/binance/futures/futures-ctrl')
 const Binance_futuresAdvancedCtrl = require('../controllers/binance/futures/advanced-orders/advanced-orders-ctrl')
 
-router.get('/tv', TV_webhookRecieverCtrl.recieveTest)
+router.post('/tv', TV_webhookRecieverCtrl.recieveTest)
 
 //Binance
 

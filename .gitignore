@@ -6,3 +6,4 @@ serviceAccountKey-us.json
 binance.md
 *.env
 **.log
+**.cache

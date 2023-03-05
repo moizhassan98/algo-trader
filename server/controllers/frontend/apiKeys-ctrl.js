@@ -14,7 +14,7 @@ const apiPermission = async (req,res) =>{
         {
         }
     );
-
+    console.log(result)
     if(result.status === 200){
         return res.status(200).json({
             success: true,

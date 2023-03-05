@@ -30,7 +30,7 @@ const BrokersPage = () =>{
         <div className="d-flex">
             <Sidebar active={'brokers'} />
             <div style={{flexGrow: '1'}}>
-                <Panel className="d-flex">
+                <Panel className="d-flex" style={{flexWrap: 'wrap', width: 'auto'}}>
                     {brokersLoading ? <Spinner size="lg" className="hv-center m-5" /> :
                         brokers.map((broker)=>{
                             return <BotCard name={broker} symbol={""} broker={true}/>

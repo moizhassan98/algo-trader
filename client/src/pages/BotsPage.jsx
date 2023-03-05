@@ -35,7 +35,7 @@ const BotsPage = () =>{
         <div className="d-flex">
             <Sidebar active={'bots'} />
             <div style={{flexGrow: '1'}}>
-                <Panel className='d-flex'>
+                <Panel className='d-flex' style={{flexWrap: 'wrap', width: 'auto'}}>
                     {botsLoading ? <Spinner className="m-5"/>:
                         bots.map((bot)=>{
                             return <BotCard key={bot.name+bot.symbol} botId={bot.botId} name={bot.name} symbol={bot.symbol}/>

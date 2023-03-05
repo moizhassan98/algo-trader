@@ -9,7 +9,7 @@ const AddBotCard = (props) =>{
         <Col className="add-bot-card"
             sm="6"
             md="3"
-            onClick={()=>navigate('/createbot')}
+            onClick={()=>window.location = '/createbot'}
         >
             <h3 className="bc-name">+</h3>
             <div className="bc-subtext">Create a New Bot</div>

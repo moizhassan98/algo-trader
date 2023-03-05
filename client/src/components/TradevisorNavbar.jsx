@@ -27,12 +27,12 @@ const TradevisorNavbar = () =>{
             setLoginPage(true)
             setSignupPage(true)
         }
-    },[])
+    },)
 
     return(
         <Navbar className={'my-navbar'} expand="lg">
             <NavbarBrand style={{width: '13%'}} sm='6'>
-                {tradevisorLogo2White} 
+                {tradevisorLogoWhite} 
             </NavbarBrand>
             <Nav className="ml-auto" navbar>
                 {loginPage &&<NavItem>
