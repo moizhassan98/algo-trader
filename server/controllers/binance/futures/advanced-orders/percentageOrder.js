@@ -36,15 +36,19 @@ const percentageOrder = async(apiKey, apiSecret, options) =>{
             else{
                 var marginAsset = dbAssetData.marginAsset
                 var marginAssetAccountBalance = await account.getAccountBalanceForAsset(apiKey, apiSecret, marginAsset)
+                console.log("Margin Asset account Balance: ",marginAssetAccountBalance)
                 if(marginAssetAccountBalance === -1){
                     return errorHandler(500,'Unable to get the asset balance from account!')
                 }
                 else{
-                    var percentageDollarAmount = Number(options.percentage * marginAssetAccountBalance)
+                    console.log("Percentage: ",options.percentage)
+                    var percentageDollarAmount = Number(options.percentage * marginAssetAccountBalance) * Number(options.leverage)
+                    console.log("Order dollar amount: ",percentageDollarAmount)
                     var orderQuantity = percentageDollarAmount / baseAssetMarkPrice
+                    console.log("Order  quantity: ",orderQuantity)
                     var orderQuantityPrecision = dbAssetData.quantityPrecision
                     orderQuantity = roundToDecimalPlaces(orderQuantity,orderQuantityPrecision);
-
+                    console.log("Order  quantity rounded: ",orderQuantity)
                     var orderResponse = await createFuturesOrder(apiKey, apiSecret,{
                         symbol: options.symbol,
                         side: options.orderSide,
@@ -68,7 +72,8 @@ module.exports = {
 const percentageOrderSchema = Joi.object({
     symbol: Joi.string().required(),
     percentage: Joi.number().min(0).max(1).required(),
-    orderSide: Joi.string().valid("BUY","SELL").required()
+    orderSide: Joi.string().valid("BUY","SELL").required(),
+    leverage: Joi.number().min(1).max(125).required(),
 });
 
 function roundToDecimalPlaces(num, decimalPlaces) {

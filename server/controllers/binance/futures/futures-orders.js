@@ -13,6 +13,7 @@ const createFuturesOrder = async(apiKey, apiSecret, options) =>{
     // const apiSecret = process.env.FuturesTestnetApiSecret
 
     const {error} = createFuturesOrderSchema.validate(options);
+    console.log(options)
 
     if(error){
         return ({

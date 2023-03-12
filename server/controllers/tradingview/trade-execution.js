@@ -52,7 +52,8 @@ async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
         let result = await binanceFuturesAdvOrders.percentageOrder(apiKeys.apiKey,apiKeys.apiSecret,{
             symbol: botData.symbol,
             percentage: botData.fixedPercentage,
-            orderSide: tradeSide
+            orderSide: tradeSide,
+            leverage: botData.botLeverage
         })
 
         return responseHandler(result)
@@ -89,7 +90,7 @@ function responseHandler(binanceQuery){
         })
     }
     else{
-        console.log(`ERROR`)
+        console.log(`ERROR: error: ${binanceQuery.error} | data: ${binanceQuery.data}`)
         return ({
             success: false,
             status: 500,
