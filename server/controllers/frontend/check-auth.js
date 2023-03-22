@@ -10,10 +10,10 @@ function checkAuth(req,res,next){
             next()
         })
         .catch(() => {
-            res.status(403).send('Unauthorized')
+            res.status(401).send('Unauthorized')
         });
     } else {
-    res.status(403).send('Unauthorized')
+    res.status(401).send('Unauthorized')
     }
 }
 

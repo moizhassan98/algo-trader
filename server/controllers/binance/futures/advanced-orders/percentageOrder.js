@@ -47,7 +47,7 @@ const percentageOrder = async(apiKey, apiSecret, options) =>{
                     var orderQuantity = percentageDollarAmount / baseAssetMarkPrice
                     console.log("Order  quantity: ",orderQuantity)
                     var orderQuantityPrecision = dbAssetData.quantityPrecision
-                    orderQuantity = roundToDecimalPlaces(orderQuantity,orderQuantityPrecision);
+                    orderQuantity = roundDown(orderQuantity,orderQuantityPrecision);
                     console.log("Order  quantity rounded: ",orderQuantity)
                     var orderResponse = await createFuturesOrder(apiKey, apiSecret,{
                         symbol: options.symbol,
@@ -76,9 +76,10 @@ const percentageOrderSchema = Joi.object({
     leverage: Joi.number().min(1).max(125).required(),
 });
 
-function roundToDecimalPlaces(num, decimalPlaces) {
-    return Number(num.toFixed(decimalPlaces));
-}
+function roundDown(num, decimalPlaces) {
+    const factor = Math.pow(10, decimalPlaces);
+    return Math.floor(num * factor) / factor;
+  }
 
 function responseHandler(binanceQuery){
     if(binanceQuery.status === 200){

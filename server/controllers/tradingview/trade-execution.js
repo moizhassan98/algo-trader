@@ -13,21 +13,30 @@ const tradeExecution = async(tradeSide,userId,botData,apiKeys) =>{
             await binanceFuturesAdvOrders.closeAllOrders(apiKeys.apiKey, apiKeys.apiSecret,{
                 symbol: botData.symbol
             })
-
-            await binanceFuturesSettings.changeFuturesMarginType(apiKeys.apiKey,apiKeys.apiSecret,{
-                symbol: botData.symbol,
-                marginType:botData.leverageType
-            })
-
-            await binanceFuturesSettings.changeFuturesLeverage(apiKeys.apiKey, apiKeys.apiSecret,{
-                symbol: botData.symbol,
-                leverage:botData.botLeverage
-            })
-
+            if(tradeSide === "CLOSE"){
+                return ({
+                    success: true,
+                    status: 200,
+                    result: "trade Closed!"
+                }) 
+            }
+            else{
+                await binanceFuturesSettings.changeFuturesMarginType(apiKeys.apiKey,apiKeys.apiSecret,{
+                    symbol: botData.symbol,
+                    marginType:botData.leverageType
+                })
+    
+                await binanceFuturesSettings.changeFuturesLeverage(apiKeys.apiKey, apiKeys.apiSecret,{
+                    symbol: botData.symbol,
+                    leverage:botData.botLeverage
+                })
+    
+                
+                let response = await binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys)
+    
+                return response
+            }
             
-            let response = await binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys)
-
-            return response
         }
         if(botData.accountType === "SPOT"){
             return errorHandler(501,`Currently Implementing SPOT Trading!`)
