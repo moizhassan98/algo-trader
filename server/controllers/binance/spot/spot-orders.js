@@ -1,11 +1,11 @@
-const { binance } = require('../helper/binance-api')
+const { spotBinance } = require('../helper/binance-spot-api')
 
 
-const createSpotOrder = async(options) =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const createSpotOrder = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/order',
         'POST',
         apiKey,
@@ -16,11 +16,11 @@ const createSpotOrder = async(options) =>{
     return responseHandler(result);
 }
 
-const getSpotOrderStatus = async(options) =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const getSpotOrderStatus = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/order',
         'GET',
         apiKey,
@@ -31,11 +31,11 @@ const getSpotOrderStatus = async(options) =>{
     return responseHandler(result);
 }
 
-const cancelOpenSpotOrders = async(options) =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const cancelOpenSpotOrders = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/order',
         'DELETE',
         apiKey,
@@ -46,11 +46,11 @@ const cancelOpenSpotOrders = async(options) =>{
     return responseHandler(result);
 }
 
-const cancelAllOpenSpotOrders = async(options) =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const cancelAllOpenSpotOrders = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/openOrders',
         'DELETE',
         apiKey,
@@ -61,11 +61,11 @@ const cancelAllOpenSpotOrders = async(options) =>{
     return responseHandler(result);
 }
 
-const getAllSpotOrders = async(options) =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const getAllSpotOrders = async(apiKey, apiSecret, options) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/allOrders',
         'GET',
         apiKey,

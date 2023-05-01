@@ -79,7 +79,7 @@ const percentageOrderSchema = Joi.object({
 function roundDown(num, decimalPlaces) {
     const factor = Math.pow(10, decimalPlaces);
     return Math.floor(num * factor) / factor;
-  }
+}
 
 function responseHandler(binanceQuery){
     if(binanceQuery.status === 200){

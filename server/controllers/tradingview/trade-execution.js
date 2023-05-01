@@ -1,5 +1,7 @@
 const binanceFuturesSettings = require('../binance/futures/futures-settings')
 const binanceFuturesAdvOrders = require('../binance/futures/advanced-orders/')
+const { spotFixedDollarOrder } = require('../binance/spot/advanced-orders/spotFixedDollarOrder')
+const { spotPercentageOrder } = require('../binance/spot/advanced-orders/spotPercentageOrder')
 
 //TODO: Handle the error in the binance requests.
 //TODO: Make changes in the base function so that they take api keys from this function.
@@ -39,7 +41,18 @@ const tradeExecution = async(tradeSide,userId,botData,apiKeys) =>{
             
         }
         if(botData.accountType === "SPOT"){
-            return errorHandler(501,`Currently Implementing SPOT Trading!`)
+            if(tradeSide === "CLOSE"){
+                return ({
+                    success: true,
+                    status: 200,
+                    result: "SPOT doesn't have Close!"
+                }) 
+            }
+            else{
+                let response = await binanceSpotAdvancedOrders(tradeSide, userId, botData, apiKeys)
+                return response;
+
+            }
         }
         if(botData.accountType === "MARGIN"){
             return errorHandler(501,`MARGIN Trading not implemented!`)
@@ -57,7 +70,7 @@ module.exports ={
 
 async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
     if(botData.typeOfOrder === "FIXED_PERCENTAGE"){
-        console.log(`REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${Number(botData.fixedPercentage)*100}%`)
+        console.log(`[FUTURES] REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${Number(botData.fixedPercentage)*100}%`)
         let result = await binanceFuturesAdvOrders.percentageOrder(apiKeys.apiKey,apiKeys.apiSecret,{
             symbol: botData.symbol,
             percentage: botData.fixedPercentage,
@@ -69,15 +82,40 @@ async function binanceFuturesAdvancedOrder(tradeSide,userId,botData,apiKeys){
 
     }
     if(botData.typeOfOrder === "FIXED_DOLLAR_AMOUNT"){
-        console.log(`REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${botData.fixedDollarAmount} USD`)
+        console.log(`[FUTURES] REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${botData.fixedDollarAmount} USD`)
         let result = await binanceFuturesAdvOrders.fixedDollarOrder(apiKeys.apiKey, apiKeys.apiSecret,{
             symbol: botData.symbol,
             fixedDollarAmount: botData.fixedDollarAmount,
-            orderSide: tradeSide
+            orderSide: tradeSide,
+            leverage: botData.botLeverage
         })
 
         return responseHandler(result);
     }
+    return errorHandler(400,`can't execute the advanced order of type: ${botData.typeOfOrder}`)
+}
+
+async function binanceSpotAdvancedOrders(tradeSide,userId,botData,apiKeys){
+    if(botData.typeOfOrder === "FIXED_PERCENTAGE"){
+        console.log(`[SPOT] REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${Number(botData.fixedPercentage)*100}%`)
+        let result = await spotPercentageOrder(apiKeys.apiKey, apiKeys.apiSecret,{
+            symbol: botData.symbol,
+            percentage: botData.fixedPercentage,
+            orderSide: tradeSide,
+        })
+        // console.log("RES",result);
+        return responseHandler(result);
+    } 
+    if(botData.typeOfOrder === "FIXED_DOLLAR_AMOUNT"){
+        console.log(`[SPOT] REQUEST: ${tradeSide} ${botData.symbol} for User:${userId} , Options: ${botData.fixedDollarAmount} USD`)
+        let result = await spotFixedDollarOrder(apiKeys.apiKey, apiKeys.apiSecret,{
+            symbol: botData.symbol,
+            fixedDollarAmount: botData.fixedDollarAmount,
+            orderSide: tradeSide
+        })
+        return responseHandler(result);
+    }
+    
     return errorHandler(400,`can't execute the advanced order of type: ${botData.typeOfOrder}`)
 }
 

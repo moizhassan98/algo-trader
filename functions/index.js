@@ -62,3 +62,53 @@ exports.binanceFuturesSymbols = functions.region('europe-west1').https.onRequest
     
     
 })
+
+exports.binanceSpotSymbols = functions.region('europe-west1').https.onRequest((req,res)=>{
+   
+    axios.get('https://api.binance.com/api/v3/exchangeInfo',{
+        headers:{
+            'host': 'api.binance.com'
+        }
+    })
+    .then((response)=>{
+        console.log(response.data.symbols)
+        var symbols = response.data.symbols
+
+        symbols.map((symbol)=>{
+            if(symbol.status === "TRADING"){
+                let symbolData = {
+                    symbol: symbol.symbol,
+                    baseAsset: symbol.baseAsset,
+                    quoteAsset: symbol.quoteAsset,
+                    baseAssetPrecision: symbol.baseAssetPrecision,
+                    quotePrecision: symbol.quotePrecision, 
+                    quoteAssetPrecision: symbol.quoteAssetPrecision,
+                }
+                db
+                    .collection("binanceSpotSymbols")
+                    .doc(symbol.symbol)
+                    .set(symbolData)
+                    .then(()=>{
+                        functions.logger.info(`Added: ${symbol.symbol}`, {structuredData: true});
+                    })
+                    .catch((e)=>{
+                        functions.logger.error(`Error: ${symbol.symbol}`, {structuredData: true});
+                    })
+
+            }
+        })
+        
+        return res.status(200).json({
+            success:true
+        })
+    })
+    .catch((err) =>{
+        console.log(err)
+        return res.status(500).json({
+            success: false,
+            error: err,
+        })
+    });
+
+
+})

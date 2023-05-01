@@ -1,10 +1,6 @@
 const { binance } = require('../helper/binance-api')
 
 const getFuturesAccountBalance = async(apiKey, apiSecret) =>{
-    // const apiKey = process.env.FuturesTestnetApiKey
-    // const apiSecret = process.env.FuturesTestnetApiSecret
-
-    // console.log(apiKey,apiSecret);
 
     var result = await binance(
         '/fapi/v2/balance',

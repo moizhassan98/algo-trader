@@ -5,7 +5,7 @@ import { SERVER_API_URL } from '../config/urls'
 
 
 const axiosObj = axios.create({
-    baseURL: SERVER_API_URL
+    baseURL: SERVER_API_URL,
 })
 
 const apiPermission = (payload, authToken) => axiosObj.post(`/apipermission`, payload, {headers: {"AuthToken": authToken}})

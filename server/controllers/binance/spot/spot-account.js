@@ -1,11 +1,11 @@
-const { binance } = require('../helper/binance-api')
+const { spotBinance } = require('../helper/binance-spot-api')
 
 
-const getSpotAccountBalances = async() =>{
-    const apiKey = process.env.SpotTestnetAPIKey
-    const apiSecret = process.env.SpotTestnetSecretKey
+const getSpotAccountBalances = async(apiKey, apiSecret) =>{
+    // const apiKey = process.env.SpotTestnetAPIKey
+    // const apiSecret = process.env.SpotTestnetSecretKey
 
-    var result = await binance(
+    var result = await spotBinance(
         '/api/v3/account',
         'GET',
         apiKey,
@@ -17,17 +17,26 @@ const getSpotAccountBalances = async() =>{
     return responseHandlerWithData(result,result.data.balances);
 }
 
-const getAccountBalanceForAsset = async(asset) =>{
+const getAccountBalanceForAsset = async(apiKey, apiSecret, asset) =>{
+    var result = await spotBinance(
+        '/sapi/v3/asset/getUserAsset',
+        'POST',
+        apiKey,
+        apiSecret,
+        {
+            asset: asset
+        }
+    )
+
+    return responseHandlerWithData(result, result.data[0]);
 }
 
 
-const getPositionForSymbol = async(symbol) =>{
-}
+
 
 module.exports ={
     getSpotAccountBalances,
     getAccountBalanceForAsset,
-    getPositionForSymbol
 }
 
 function responseHandler(result){

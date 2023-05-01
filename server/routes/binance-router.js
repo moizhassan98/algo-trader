@@ -13,6 +13,9 @@ router.post('/tv', TV_webhookRecieverCtrl.recieveTest)
     //Spot
 
     router.get('/binance/spotbalances', Binance_spotCtrl.getSpotAccountAssets)
+    router.post('/binance/spotasset', Binance_spotCtrl.getAssetBalance)
+    router.post('/binance/getallspotorders',Binance_spotCtrl.getAllSpotOrdersCtrl)
+    router.post('/binance/spotorder', Binance_spotCtrl.createOrderForSpot)
 
     //Futures
     router.post('/binance/futuresorder', Binance_futuresCtrl.createFuturesOrder)

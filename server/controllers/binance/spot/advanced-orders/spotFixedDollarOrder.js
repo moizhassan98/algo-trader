@@ -1,12 +1,10 @@
-const { getAssetMarkPrice } = require('../utils/getAssetMarkPrice')
 const Joi = require('@hapi/joi');
-const db = require('../../../../db')
-const {
-    createFuturesOrder
-} = require('../futures-orders')
+const db = require('../../../../db');
+const { getSpotAssetMarkPrice } = require('../utils/getSpotAssetMarkPrice');
+const orders = require('../spot-orders')
 
 /**
- * Creates a position where a fixed dollar amount is defined. Order is executed at MARKET price.
+ * Creates a SPOT position where a fixed dollar amount is defined. Order is executed at MARKET price.
  * 
  * @param {Object} options object containing different inputs for function.
  * @param {String} options.symbol symbol for which the trade is to be executed. e.g BTCUSDT
@@ -15,8 +13,7 @@ const {
  * 
  * @returns {Object} returns the result of api request to binance
  */
-const fixedDollarOrder = async(apiKey, apiSecret, options) =>{
-
+const spotFixedDollarOrder = async(apiKey, apiSecret, options) =>{
     const {error} = fixedDollarOrderSchema.validate(options);
 
     if(error){
@@ -27,39 +24,43 @@ const fixedDollarOrder = async(apiKey, apiSecret, options) =>{
         })
     }
     else{
-        var baseAssetMarkPrice = await getAssetMarkPrice(options.symbol);
-        if(baseAssetMarkPrice === -1){
-            return ({
-                status: 400,
-                success: false,
-                error: 'The symbol provided not supported. Got error getting MarkPrice!'
-            })
+        var dbAssetData = await(await (db.collection('binanceSpotSymbols').doc(options.symbol).get())).data()
+        var quoteAsset = dbAssetData.quoteAsset
+        if(quoteAsset !== "USDT"){
+            var quoteAssetPrice = await getSpotAssetMarkPrice(quoteAsset);
         }
         else{
-            var orderQuantity = ( options.fixedDollarAmount / baseAssetMarkPrice ) * options.leverage
-            var orderQuantityPrecision = await(await (db.collection('binanceFuturesSymbols').doc(options.symbol).get())).data().quantityPrecision
-            orderQuantity = roundToDecimalPlaces(orderQuantity,orderQuantityPrecision);
+            var quoteAssetPrice = 1;
+        }
+        
 
-            var orderResponse = await createFuturesOrder(apiKey, apiSecret,{
+        var quoteAssetQuantity = options.fixedDollarAmount / quoteAssetPrice ;
+        quoteAssetQuantity = roundToDecimalPlaces(quoteAssetQuantity,dbAssetData.quotePrecision)
+
+        var binanceQuery = await orders.createSpotOrder(
+            apiKey,
+            apiSecret,
+            {
                 symbol: options.symbol,
                 side: options.orderSide,
                 type: "MARKET",
-                quantity: orderQuantity,
-            })
-            return responseHandler(orderResponse);
-        }
+                quoteOrderQty: quoteAssetQuantity
+            }
+        );
+
+        return responseHandler(binanceQuery);
+
     }
 }
 
 module.exports = {
-    fixedDollarOrder,
+    spotFixedDollarOrder
 }
 
 const fixedDollarOrderSchema = Joi.object({
     symbol: Joi.string().required(),
     fixedDollarAmount: Joi.number().integer().min(1).required(),
-    orderSide: Joi.string().valid("BUY","SELL").required(),
-    leverage: Joi.number().min(1).max(125).required(),
+    orderSide: Joi.string().valid("BUY","SELL").required()
 });
 
 function roundToDecimalPlaces(num, decimalPlaces) {
