@@ -1,12 +1,11 @@
 const db = require('../../db');
-const {binance} = require('../binance/helper/binance-api')
+const { spotBinance } = require('../binance/helper/binance-spot-api');
 
 const apiPermission = async (req,res) =>{
     const {apiKey, apiSecret} = req.body
 
     //TODO: Validation of user input
-
-    var result = await binance(
+    var result = await spotBinance(
         '/sapi/v1/account/apiRestrictions',
         'GET',
         apiKey,
